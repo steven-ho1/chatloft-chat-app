@@ -1,0 +1,9 @@
+.register__success-message-container {
+    gap: 1rem;
+}
+
+.register__button-link {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}

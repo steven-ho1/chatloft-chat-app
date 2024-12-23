@@ -1,4 +1,4 @@
-import { handleServerError } from "@src/utils/errorUtils";
+import { handleServerError } from "@src/utils/error";
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { JwtPayload, sign, verify } from "jsonwebtoken";

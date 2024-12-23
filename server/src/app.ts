@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { Service } from "typedi";
-import { AuthController } from "./controllers/authController";
+import { AuthController } from "./controllers/auth.controller";
 
 @Service()
 export class Application {

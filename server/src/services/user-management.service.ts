@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import { AuthData, Credentials } from "@common/auth";
 import { DEFAULT_PROFILE_PIC, User } from "@common/user";
-import { snakeToCamelCase } from "@src/utils/dbUtils";
-import { generateUserID, SALT_LENGTH } from "@src/utils/userIdUtils";
+import { snakeToCamelCase } from "@src/utils/db";
+import { generateUserID, SALT_LENGTH } from "@src/utils/user-id";
 import { compare, hash } from "bcryptjs";
 import { Service } from "typedi";
-import { PostgresDb } from "./postgresDb";
+import { PostgresDb } from "./postgres-db.service";
 
 @Service()
 export class UserManagementService {

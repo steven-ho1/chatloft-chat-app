@@ -1,11 +1,11 @@
 import { AuthData, AuthResponse } from "@common/auth";
 import { User } from "@common/user";
-import { TokenService } from "@src/services/tokenService";
-import { UserManagementService } from "@src/services/user-management-service.service";
+import { TokenService } from "@src/services/token.service";
+import { UserManagementService } from "@src/services/user-management.service";
 import { Request, Response, Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { Service } from "typedi";
-import { handleServerError } from "../utils/errorUtils";
+import { handleServerError } from "../utils/error";
 
 @Service()
 export class AuthController {

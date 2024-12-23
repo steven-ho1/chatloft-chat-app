@@ -1,7 +1,7 @@
 import { configDotenv } from "dotenv";
 import { Service } from "typedi";
 import { Application } from "./app";
-import { PostgresDb } from "./services/postgresDb";
+import { PostgresDb } from "./services/postgres-db.service";
 
 @Service()
 export class Server {

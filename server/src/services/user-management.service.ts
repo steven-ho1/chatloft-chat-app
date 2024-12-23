@@ -4,11 +4,11 @@ import { snakeToCamelCase } from "@src/utils/db";
 import { generateUserID, SALT_LENGTH } from "@src/utils/user-id";
 import { compare, hash } from "bcryptjs";
 import { Service } from "typedi";
-import { PostgresDb } from "./postgres-db.service";
+import { PostgresDbService } from "./postgres-db.service";
 
 @Service()
 export class UserManagementService {
-    constructor(private postgresDb: PostgresDb) {}
+    constructor(private postgresDb: PostgresDbService) {}
 
     async createUser(authData: AuthData) {
         const { user, credentials } = await this.populateNewUser(authData);

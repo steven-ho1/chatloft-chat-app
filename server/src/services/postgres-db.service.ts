@@ -3,7 +3,7 @@ import postgres from "postgres";
 import { Service } from "typedi";
 
 @Service()
-export class PostgresDb {
+export class PostgresDbService {
     // Could have used node-postgres
     sql!: postgres.Sql;
 

@@ -35,11 +35,13 @@
         "crypto-random-string": "^3.3.1",
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
+        "http": "^0.0.1-security",
         "http-status-codes": "^2.3.0",
         "jsonwebtoken": "^9.0.2",
         "postgres": "^3.4.5",
         "redis": "^4.7.0",
         "reflect-metadata": "^0.2.2",
+        "socket.io": "^4.8.1",
         "tsconfig-paths": "^4.2.0",
         "typedi": "^0.10.0"
     }

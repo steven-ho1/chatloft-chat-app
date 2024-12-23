@@ -1,0 +1,18 @@
+.sidebar {
+    gap: 3rem;
+    padding: 1rem 0.5rem;
+    background-color: lightgray;
+}
+
+.sidebar .logo {
+    width: 50px;
+}
+
+.menu {
+    gap: 20px;
+    list-style-type: none;
+}
+
+.menu li {
+    font-size: 25px;
+}

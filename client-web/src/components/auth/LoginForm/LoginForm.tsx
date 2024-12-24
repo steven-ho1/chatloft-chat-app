@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthResponse } from "../../../../../common/auth";
 import { EndPoint, getEndPoint } from "../../../api/apiConfig";
-import { useAuth } from "../../../hooks/auth";
+import { useAuthForm } from "../../../hooks/authForm";
+import { useUser } from "../../../hooks/user";
 import { HttpMethod } from "../../../types/httpMethods";
 import { areFieldsComplete } from "../../../utils/formUtils";
 import CredentialFields from "../CredentialFields/CredentialFields";
 import "./LoginForm.css";
 
 const LoginForm = () => {
-    const { authData } = useAuth();
+    const { authData } = useAuthForm();
+    const { setUser } = useUser();
     const [serverError, setServerError] = useState("");
     const navigate = useNavigate();
 
@@ -34,7 +36,8 @@ const LoginForm = () => {
                 }
                 const data: AuthResponse = await response.json();
                 localStorage.setItem("token", data.token!);
-                console.log(data.user);
+                setUser(data.user!);
+
                 navigate("/chats");
             } catch (error) {
                 console.error(error);

@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { AuthData } from "../types/auth";
-import { AuthContext } from "./AuthContext";
+import { AuthFormContext } from "./AuthFormContext";
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthFormProvider = ({
+    children,
+}: {
+    children: React.ReactNode;
+}) => {
     const [authData, setAuthData] = useState<AuthData>({
         fullName: "",
         email: "",
@@ -17,7 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         });
 
     return (
-        <AuthContext.Provider
+        <AuthFormContext.Provider
             value={{
                 authData,
                 setAuthData,
@@ -25,6 +29,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }}
         >
             {children}
-        </AuthContext.Provider>
+        </AuthFormContext.Provider>
     );
 };

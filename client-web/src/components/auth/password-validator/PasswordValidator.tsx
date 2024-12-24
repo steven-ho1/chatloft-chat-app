@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAuth } from "../../../hooks/auth";
+import { useAuthForm } from "../../../hooks/authForm";
 import {
     MINIMUM_PASSWORD_LENGTH,
     Requirement,
@@ -13,7 +13,7 @@ const PasswordValidator = ({
 }) => {
     const {
         authData: { password },
-    } = useAuth();
+    } = useAuthForm();
 
     const validationResults = {
         [Requirement.MinLengthValid]:

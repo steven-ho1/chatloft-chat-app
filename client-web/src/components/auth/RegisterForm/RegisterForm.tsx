@@ -1,9 +1,10 @@
 import { TextField } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthResponse } from "../../../../../common/auth";
 import { EndPoint, getEndPoint } from "../../../api/apiConfig";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useAuthForm } from "../../../hooks/authForm";
+import { useUser } from "../../../hooks/user";
 import { ErrorMessage } from "../../../types/error";
 import { HttpMethod } from "../../../types/httpMethods";
 import { areFieldsComplete, handleFormChange } from "../../../utils/formUtils";
@@ -13,7 +14,8 @@ import PasswordAdornment from "../PasswordAdornment/PasswordAdornment";
 import "./RegisterForm.css";
 
 const RegisterForm = () => {
-    const { authData, setAuthData } = useContext(AuthContext)!;
+    const { authData, setAuthData } = useAuthForm();
+    const { setUser } = useUser();
     const [showPassword, setShowPassword] = useState(false);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [confirmationPassword, setConfirmationPassword] = useState("");
@@ -47,7 +49,7 @@ const RegisterForm = () => {
                     }
                     const data: AuthResponse = await response.json();
                     localStorage.setItem("token", data.token!);
-                    console.log(data.user);
+                    setUser(data.user!);
 
                     navigate("/chats");
                 } catch (error) {

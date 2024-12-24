@@ -1,11 +1,11 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
-import { useAuth } from "../../../hooks/auth";
+import { useAuthForm } from "../../../hooks/authForm";
 import { handleFormChange } from "../../../utils/formUtils";
 import PasswordAdornment from "../PasswordAdornment/PasswordAdornment";
 
 const CredentialFields = ({ error }: { error: string }) => {
-    const { authData, setAuthData } = useAuth();
+    const { authData, setAuthData } = useAuthForm();
     const [showPassword, setShowPassword] = useState(false);
 
     return (

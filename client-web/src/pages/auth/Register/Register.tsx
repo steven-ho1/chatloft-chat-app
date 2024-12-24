@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import AuthTitle from "../../../components/auth/AuthTitle/AuthTitle";
 import RegisterForm from "../../../components/auth/RegisterForm/RegisterForm";
-import { useAuth } from "../../../hooks/auth";
+import { useAuthForm } from "../../../hooks/authForm";
 import "../shared.css";
 import "./Register.css";
 
 const Register = () => {
-    const { resetAuthData } = useAuth();
+    const { resetAuthData } = useAuthForm();
 
     useEffect(() => {
         return resetAuthData();

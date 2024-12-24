@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthTitle from "../../../components/auth/AuthTitle/AuthTitle";
 import LoginForm from "../../../components/auth/LoginForm/LoginForm";
-import { useAuth } from "../../../hooks/auth";
+import { useAuthForm } from "../../../hooks/authForm";
 import "../shared.css";
 import "./Login.css";
 
 const Login = () => {
-    const { resetAuthData } = useAuth();
+    const { resetAuthData } = useAuthForm();
 
     useEffect(() => {
         return resetAuthData();

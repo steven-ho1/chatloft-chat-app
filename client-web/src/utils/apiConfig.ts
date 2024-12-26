@@ -1,9 +1,8 @@
-const API_BASE_URL = "http://localhost:8080";
-
 export enum EndPoint {
     Login = "/api/auth/login",
     Register = "/api/auth/register",
     SessionLoading = "/api/auth/session-loading",
 }
 
-export const getEndPoint = (endpoint: EndPoint) => API_BASE_URL + endpoint;
+export const getEndPoint = (endpoint: EndPoint) =>
+    import.meta.env.VITE_API_URL + endpoint;

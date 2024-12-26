@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { EndPoint, getEndPoint } from "./api/apiConfig";
 import "./App.css";
 import AuthLayout from "./components/auth/AuthLayout/AuthLayout";
 import { UserProvider } from "./contexts/UserProvider";
@@ -9,6 +8,7 @@ import PasswordReset from "./pages/auth/PasswordReset/PasswordReset";
 import Register from "./pages/auth/Register/Register";
 import Chats from "./pages/Chats/Chats";
 import { HttpMethod } from "./types/httpMethods";
+import { EndPoint, getEndPoint } from "./utils/apiConfig";
 
 const App: () => React.JSX.Element = () => {
     const [loading, setLoading] = useState(true);

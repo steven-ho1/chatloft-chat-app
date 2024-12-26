@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthResponse } from "../../../../../common/auth";
-import { EndPoint, getEndPoint } from "../../../api/apiConfig";
 import { useAuthForm } from "../../../hooks/authForm";
 import { useUser } from "../../../hooks/user";
 import { HttpMethod } from "../../../types/httpMethods";
+import { EndPoint, getEndPoint } from "../../../utils/apiConfig";
 import { areFieldsComplete } from "../../../utils/formUtils";
 import CredentialFields from "../CredentialFields/CredentialFields";
 import "./LoginForm.css";

@@ -60,7 +60,7 @@ export class AuthController {
     private registerUser = async (req: Request, res: Response) => {
         try {
             const authData: AuthData = req.body;
-            const fullName = authData.fullName?.trim();
+            const fullName = authData.fullName?.trim().replace(/\s+/g, " ");
             const email = authData.email?.trim().toLowerCase();
             const password = authData.password;
 

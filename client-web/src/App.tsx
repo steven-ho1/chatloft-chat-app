@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { EndPoint, getEndPoint } from "./api/apiConfig";
 import "./App.css";
+import AuthLayout from "./components/auth/AuthLayout/AuthLayout";
 import { UserProvider } from "./contexts/UserProvider";
-import AuthLayout from "./layout/auth-layout/AuthLayout";
-import MainLayout from "./layout/main-layout/MainLayout";
 import Login from "./pages/auth/Login/Login";
 import PasswordReset from "./pages/auth/PasswordReset/PasswordReset";
 import Register from "./pages/auth/Register/Register";
-import Chats from "./pages/chats/Chats";
+import Chats from "./pages/Chats/Chats";
 import { HttpMethod } from "./types/httpMethods";
 
 const App: () => React.JSX.Element = () => {
@@ -66,9 +65,7 @@ const App: () => React.JSX.Element = () => {
                             element={<PasswordReset />}
                         />
                     </Route>
-                    <Route element={<MainLayout />}>
-                        <Route path="chats" element={<Chats />} />
-                    </Route>
+                    <Route path="chats" element={<Chats />} />
                 </Routes>
             </UserProvider>
         </div>

@@ -1,6 +1,6 @@
 .app {
     min-height: 100vh;
-    height: 100vh; // TODO
+    height: 100vh; /* TODO */
 }
 
 .loader-container {

@@ -9,8 +9,8 @@ import { ErrorMessage } from "../../../types/error";
 import { HttpMethod } from "../../../types/httpMethods";
 import { areFieldsComplete, handleFormChange } from "../../../utils/formUtils";
 import CredentialFields from "../CredentialFields/CredentialFields";
-import PasswordValidator from "../password-validator/PasswordValidator";
 import PasswordAdornment from "../PasswordAdornment/PasswordAdornment";
+import PasswordValidator from "../PasswordValidator/PasswordValidator";
 import "./RegisterForm.css";
 
 const RegisterForm = () => {

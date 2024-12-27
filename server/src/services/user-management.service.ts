@@ -1,6 +1,5 @@
 import { AuthData, Credentials } from "@common/auth";
 import { DEFAULT_PROFILE_PIC, User } from "@common/user";
-import { snakeToCamelCase } from "@src/utils/db";
 import { compare, hash } from "bcryptjs";
 import { Service } from "typedi";
 import { PostgresDbService } from "./postgres-db.service";
@@ -32,36 +31,35 @@ export class UserManagementService {
     }
 
     async findCredentialsByEmail(email: string) {
-        const result = await this.postgresDb.sql`
+        const result: Credentials[] = await this.postgresDb.sql<Credentials[]>`
             SELECT *
             FROM credentials
             WHERE credentials.email = ${email};
         `;
 
-        if (result.length > 0)
-            return snakeToCamelCase(result[0]) as Credentials;
-        return null;
+        if (!result.length) return null;
+        return result[0];
     }
 
     async findUserById(userId: string) {
-        const result = await this.postgresDb.sql`
+        const result: User[] = await this.postgresDb.sql<User[]>`
             SELECT *
             FROM users
             WHERE users.id = ${userId};
         `;
 
-        if (result.length > 0) return snakeToCamelCase(result[0]) as User;
-        return null;
+        if (!result.length) return null;
+        return result[0];
     }
 
     private async insertUser(authData: AuthData) {
-        const result = await this.postgresDb.sql`
+        const result: User[] = await this.postgresDb.sql<User[]>`
             INSERT INTO users (full_name, profile_pic_url)
             VALUES (${authData.fullName!}, ${DEFAULT_PROFILE_PIC})
             RETURNING *;
         `;
 
-        return snakeToCamelCase(result[0]) as User;
+        return result[0];
     }
 
     private async insertCredentials(authData: AuthData, userId: string) {

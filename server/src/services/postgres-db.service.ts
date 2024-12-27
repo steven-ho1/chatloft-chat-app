@@ -12,7 +12,7 @@ export class PostgresDbService {
         // Tagged templates: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
         configDotenv();
         const connectionString = process.env.DATABASE_URL;
-        this.sql = postgres(connectionString!);
+        this.sql = postgres(connectionString!, { transform: postgres.toCamel });
 
         await this.testPostgresConnection();
         await this.setTables();

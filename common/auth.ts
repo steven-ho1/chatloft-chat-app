@@ -14,5 +14,5 @@ export interface AuthResponse {
 export interface Credentials {
     userId: string;
     email: string;
-    password: string;
+    passwordHash: string;
 }

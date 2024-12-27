@@ -49,7 +49,7 @@ export class AuthController {
                 return;
             }
 
-            const token = this.tokenService.generateToken(user.userId);
+            const token = this.tokenService.generateToken(user.id);
             const payload: AuthResponse = { user, token };
             res.json(payload);
         } catch (error) {
@@ -85,9 +85,7 @@ export class AuthController {
                 email,
                 password,
             });
-            const token: string = this.tokenService.generateToken(
-                newUser.userId
-            );
+            const token: string = this.tokenService.generateToken(newUser.id);
             const payload: AuthResponse = { user: newUser, token };
             res.json(payload);
         } catch (error) {

@@ -1,9 +1,7 @@
-export interface UserReference {
-    userId: string;
+export interface User {
+    id: string;
     fullName: string;
-    profilePic: string;
+    profilePicUrl: string;
 }
-
-export interface User extends UserReference {}
 
 export const DEFAULT_PROFILE_PIC = "default-profile-pic.png";

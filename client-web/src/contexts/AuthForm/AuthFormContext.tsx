@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthData } from "../types/auth";
+import { AuthData } from "../../types/auth";
 
 type AuthFormContextType = {
     authData: AuthData;

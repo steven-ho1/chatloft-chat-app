@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AuthData } from "../types/auth";
+import { AuthData } from "../../types/auth";
 import { AuthFormContext } from "./AuthFormContext";
 
 export const AuthFormProvider = ({

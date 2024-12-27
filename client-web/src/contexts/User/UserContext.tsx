@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "../../../common/user";
+import { User } from "../../../../common/user";
 
 type UserContextType = {
     user: User | null;

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { AuthResponse } from "../../common/auth";
 import "./App.css";
 import AuthLayout from "./components/auth/AuthLayout/AuthLayout";
-import { UserProvider } from "./contexts/UserProvider";
+import { useUser } from "./hooks/user";
 import Login from "./pages/auth/Login/Login";
 import PasswordReset from "./pages/auth/PasswordReset/PasswordReset";
 import Register from "./pages/auth/Register/Register";
@@ -13,6 +14,7 @@ import { EndPoint, getEndPoint } from "./utils/apiConfig";
 const App: () => React.JSX.Element = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -26,8 +28,17 @@ const App: () => React.JSX.Element = () => {
                     }
                 );
 
-                if (response.ok) navigate("/chats");
-                else navigate("/login");
+                if (!response.ok) {
+                    navigate("/login");
+                    return;
+                }
+
+                const data: AuthResponse = await response.json();
+                localStorage.setItem("token", data.token!);
+                setUser(data.user!);
+                console.log(data);
+
+                navigate("/chats");
             } catch (error) {
                 console.error(error);
                 navigate("/login");
@@ -55,19 +66,14 @@ const App: () => React.JSX.Element = () => {
         </div>
     ) : (
         <div className="app">
-            <UserProvider>
-                <Routes>
-                    <Route element={<AuthLayout />}>
-                        <Route path="login" element={<Login />} />
-                        <Route path="register" element={<Register />} />
-                        <Route
-                            path="password-reset"
-                            element={<PasswordReset />}
-                        />
-                    </Route>
-                    <Route path="chats" element={<Chats />} />
-                </Routes>
-            </UserProvider>
+            <Routes>
+                <Route element={<AuthLayout />}>
+                    <Route path="login" element={<Login />} />
+                    <Route path="register" element={<Register />} />
+                    <Route path="password-reset" element={<PasswordReset />} />
+                </Route>
+                <Route path="chats" element={<Chats />} />
+            </Routes>
         </div>
     );
 };

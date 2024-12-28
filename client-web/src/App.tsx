@@ -36,7 +36,6 @@ const App: () => React.JSX.Element = () => {
                 const data: AuthResponse = await response.json();
                 localStorage.setItem("token", data.token!);
                 setUser(data.user!);
-                console.log(data);
 
                 navigate("/chats");
             } catch (error) {

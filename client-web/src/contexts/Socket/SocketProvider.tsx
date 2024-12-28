@@ -4,18 +4,18 @@ import { useUser } from "../../hooks/user";
 import { SocketContext } from "./SocketContext";
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-    const [socket, setSocket] = useState<Socket>();
+    const [socket, setSocket] = useState<Socket | null>(null);
     const { user } = useUser();
 
     useEffect(() => {
-        setSocket(
-            io(import.meta.env.VITE_API_URL, {
-                auth: { userId: user!.id },
-            })
-        );
+        const socketConnection = io(import.meta.env.VITE_API_URL, {
+            auth: { userId: user!.id },
+        });
+        setSocket(socketConnection);
 
         return () => {
-            socket?.disconnect();
+            socketConnection.disconnect();
+            console.log(socketConnection);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

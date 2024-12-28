@@ -7,6 +7,6 @@ type AuthFormContextType = {
     resetAuthData: () => void;
 };
 
-export const AuthFormContext = React.createContext<AuthFormContextType | null>(
-    null
-);
+export const AuthFormContext = React.createContext<
+    AuthFormContextType | undefined
+>(undefined);

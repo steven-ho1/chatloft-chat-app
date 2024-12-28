@@ -3,7 +3,7 @@ import * as http from "http";
 import { Service } from "typedi";
 import { Application } from "./app";
 import { PostgresDbService } from "./services/postgres-db.service";
-import { SocketService } from "./services/socket.service";
+import { SocketService } from "./services/socket/socket.service";
 
 @Service()
 export class Server {

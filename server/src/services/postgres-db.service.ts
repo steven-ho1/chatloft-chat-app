@@ -15,10 +15,11 @@ export class PostgresDbService {
         this.sql = postgres(connectionString!, { transform: postgres.toCamel });
 
         await this.testPostgresConnection();
-        await this.setTables();
+        await this.createTables();
     }
 
-    private async setTables() {
+    private async createTables() {
+        console.log("Creating tables...");
         await this.sql`SET client_min_messages TO WARNING;`;
 
         await this.sql`
@@ -50,7 +51,7 @@ export class PostgresDbService {
         `;
 
         await this.sql`
-            CREATE TABLE IF NOT EXISTS user_lofts (
+            CREATE TABLE IF NOT EXISTS loft_users (
                 user_id UUID NOT NULL,
                 loft_id UUID NOT NULL,
                 PRIMARY KEY(user_id, loft_id),
@@ -71,6 +72,7 @@ export class PostgresDbService {
                 FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
             );
         `;
+        console.log("Tables created");
     }
 
     private async testPostgresConnection() {

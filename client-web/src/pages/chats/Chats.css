@@ -1,31 +1,5 @@
 .chat-container {
-    display: grid;
-    grid-template-columns: 0.2fr 0.8fr;
-    grid-template-rows: 0.1fr 0.7fr 0.2fr;
+    display: flex;
     width: 100%;
     height: 100%;
-}
-
-.chat-list {
-    grid-row: 1/-1;
-    background-color: green;
-    overflow: hidden;
-}
-
-.chat-bar {
-    grid-column: 2;
-    grid-row: 1;
-    background-color: lightblue;
-}
-
-.messages-container {
-    grid-column: 2;
-    grid-row: 2;
-    background-color: red;
-}
-
-.input-container {
-    grid-column: 2;
-    grid-row: 3;
-    background-color: grey;
 }

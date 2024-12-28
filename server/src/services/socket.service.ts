@@ -44,7 +44,7 @@ export class SocketService {
                             loft,
                             userId
                         );
-                    this.sio.emit("loftCreated", newLoft);
+                    socket.emit("loftCreated", newLoft);
                 } catch (error) {
                     console.log(error);
                 }
@@ -53,7 +53,7 @@ export class SocketService {
             socket.on("fetchUserLofts", async () => {
                 try {
                     const lofts: Loft[] =
-                        await this.loftManagementService.getUserLofts(userId);
+                        await this.loftManagementService.fetchUserLofts(userId);
 
                     this.sio.emit("userLoftsFetched", lofts);
                 } catch (error) {
@@ -61,8 +61,35 @@ export class SocketService {
                 }
             });
 
-            socket.on("getAllLofts", async () => {
+            socket.on("searchLofts", async (data: { query: string }) => {
                 try {
+                    const query: string = data.query?.trim().toLowerCase();
+
+                    if (typeof query !== "string") {
+                        socket.emit("queryError");
+                        return;
+                    }
+
+                    const lofts: Loft[] =
+                        await this.loftManagementService.searchLofts(
+                            query,
+                            userId
+                        );
+                    socket.emit("loftsFound", lofts);
+                } catch (error) {
+                    console.log(error);
+                }
+            });
+
+            socket.on("joinLoft", async (data: { loftId: string }) => {
+                try {
+                    const loft: Loft =
+                        await this.loftManagementService.joinLoft(
+                            userId,
+                            data.loftId
+                        );
+
+                    socket.emit("loftJoined", loft);
                 } catch (error) {
                     console.log(error);
                 }

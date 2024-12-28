@@ -4,4 +4,5 @@ export interface Loft {
     description: string;
     profilePicUrl: string;
     ownerId?: string;
+    isMember?: boolean;
 }

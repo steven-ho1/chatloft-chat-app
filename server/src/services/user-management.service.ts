@@ -34,7 +34,7 @@ export class UserManagementService {
         const result: Credentials[] = await this.postgresDb.sql<Credentials[]>`
             SELECT *
             FROM credentials
-            WHERE credentials.email = ${email};
+            WHERE email = ${email};
         `;
 
         if (!result.length) return null;
@@ -45,7 +45,7 @@ export class UserManagementService {
         const result: User[] = await this.postgresDb.sql<User[]>`
             SELECT *
             FROM users
-            WHERE users.id = ${userId};
+            WHERE id = ${userId};
         `;
 
         if (!result.length) return null;

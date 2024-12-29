@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Loft } from "../../../../common/loft";
 import { useSocket } from "../../hooks/socket";
 import "./LoftList.css";
@@ -8,6 +9,7 @@ const LoftList = () => {
     const [searchedLofts, setSearchedLofts] = useState<Loft[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const socket = useSocket();
+    const navigate = useNavigate();
     const createLoft = () => {
         const loftName = prompt("Channel name");
         if (loftName?.trim().length) {
@@ -24,7 +26,6 @@ const LoftList = () => {
     const searchLoft = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         setSearchQuery(query);
-        console.log(typeof query);
         socket.emit("searchLofts", { query: query.trim().toLowerCase() });
     };
 
@@ -32,7 +33,9 @@ const LoftList = () => {
         socket.emit("joinLoft", { loftId });
     };
 
-    const openLoft = () => {};
+    const openLoft = (loftId: string) => {
+        navigate(`/lofts/${loftId}`);
+    };
 
     useEffect(() => {
         socket.on("loftCreated", (loft: Loft) => {
@@ -71,6 +74,7 @@ const LoftList = () => {
             socket.off("userLoftsFetched");
             socket.off("loftsFound");
             socket.off("loftJoined");
+            socket.off("queryError");
         };
     }, []);
 
@@ -80,7 +84,7 @@ const LoftList = () => {
             <h2>Lofts</h2>
             <ul>
                 {userLofts.map((loft: Loft) => (
-                    <li key={loft.id} onClick={openLoft}>
+                    <li key={loft.id} onClick={() => openLoft(loft.id!)}>
                         {loft.name}
                     </li>
                 ))}

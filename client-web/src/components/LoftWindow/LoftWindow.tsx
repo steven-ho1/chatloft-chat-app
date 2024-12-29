@@ -1,42 +1,75 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Message } from "../../../../common/message";
 import { useSocket } from "../../hooks/socket";
 import { useUser } from "../../hooks/user";
 import "./LoftWindow.css";
 
 const LoftWindow = () => {
-    const socket = useSocket();
-    const [message, setMessage] = useState("");
-    const { user } = useUser();
+    const { id } = useParams();
 
-    const sendMessage = (e: React.FormEvent) => {
+    const socket = useSocket();
+    const [messageContent, setMessageContent] = useState("");
+    const { user } = useUser();
+    const [messages, setMessages] = useState<Message[]>([]);
+
+    const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const message: Message = {
+            loftId: id!,
+            senderId: user!.id,
+            content: messageContent.trim(),
+            imageUrl: null,
+        };
         socket.emit("sendMessage", message);
-        setMessage("");
+        setMessageContent("");
     };
 
     useEffect(() => {
-        socket.on("newMessage", (message) => {
-            console.log(message);
+        socket.on("newMessage", (message: Message) => {
+            setMessages((prevMessages: Message[]) => [
+                ...prevMessages,
+                message,
+            ]);
+        });
+
+        socket.on("loftMessagesFetched", (messages: Message[]) => {
+            setMessages(messages);
         });
 
         return () => {
             socket.off("newMessage");
+            socket.off("loftMessagesFetched");
         };
-    });
-    return (
+    }, []);
+
+    useEffect(() => {
+        if (id) {
+            socket.emit("enterLoft", { loftId: id });
+        }
+    }, [id]);
+
+    return id ? (
         <div>
             <div>{user?.fullName}</div>
-            <div></div>
+            <div>
+                {messages.map((message: Message) => (
+                    <div key={message.id}>{message.content}</div>
+                ))}
+            </div>
             <form onSubmit={sendMessage}>
                 <input
                     type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
+                    value={messageContent}
+                    onChange={(e) => setMessageContent(e.target.value)}
                     required
                 />
             </form>
         </div>
+    ) : (
+        <div>Select a loft</div>
     );
 };
 

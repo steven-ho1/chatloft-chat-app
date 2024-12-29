@@ -15,7 +15,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
         return () => {
             socketConnection.disconnect();
-            console.log(socketConnection);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

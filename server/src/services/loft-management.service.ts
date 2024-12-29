@@ -28,7 +28,6 @@ export class LoftManagementService {
             WHERE l.id = l_u.loft_id
             AND l_u.user_id = ${userId};
         `;
-        console.log(lofts);
 
         return lofts;
     }
@@ -64,10 +63,19 @@ export class LoftManagementService {
         const lofts: Loft[] = await this.postgresDb.sql<Loft[]>`
             SELECT *
             FROM lofts
-            WHERE lofts.id = ${loftId};
+            WHERE id = ${loftId};
         `;
-        console.log(lofts);
 
         return lofts[0];
+    }
+
+    async doesLoftExist(loftId: string) {
+        const result = await this.postgresDb.sql`
+            SELECT EXISTS (
+                SELECT 1 FROM lofts WHERE id = ${loftId}
+            ) AS loft_exists;
+        `;
+
+        return result[0].loftExists;
     }
 }

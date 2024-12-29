@@ -72,6 +72,7 @@ const App: () => React.JSX.Element = () => {
                     <Route path="/password-reset" element={<PasswordReset />} />
                 </Route>
                 <Route path="/lofts" element={<Lofts />} />
+                <Route path="/lofts/:id" element={<Lofts />} />
             </Routes>
         </div>
     );

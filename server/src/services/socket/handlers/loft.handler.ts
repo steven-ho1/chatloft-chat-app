@@ -1,14 +1,20 @@
 import { Loft } from "@common/loft";
+import { Message } from "@common/message";
 import { LoftManagementService } from "@src/services/loft-management.service";
+import { MessageManagementService } from "@src/services/message-management.service";
 import * as io from "socket.io";
 import { Service } from "typedi";
 
 @Service()
 export class LoftHandler {
-    constructor(private loftManagementService: LoftManagementService) {}
+    constructor(
+        private loftManagementService: LoftManagementService,
+        private messageManagementService: MessageManagementService
+    ) {}
 
     setListeners(socket: io.Socket, sio: io.Server) {
-        const { userId } = socket.handshake.auth;
+        const { userId } = socket.handshake.auth as { userId: string };
+        let currentLoftId: string = "";
 
         socket.on("createLoft", async (loft: Loft) => {
             try {
@@ -56,6 +62,26 @@ export class LoftHandler {
                 );
 
                 socket.emit("loftJoined", loft);
+            } catch (error) {
+                console.log(error);
+            }
+        });
+
+        socket.on("enterLoft", async (data: { loftId: string }) => {
+            try {
+                const loftExists: boolean =
+                    await this.loftManagementService.doesLoftExist(data.loftId);
+                if (!loftExists) return;
+
+                const messages: Message[] =
+                    await this.messageManagementService.fetchLoftMessages(
+                        data.loftId
+                    );
+                socket.emit("loftMessagesFetched", messages);
+                socket.join(data.loftId);
+
+                socket.leave(currentLoftId);
+                currentLoftId = data.loftId;
             } catch (error) {
                 console.log(error);
             }

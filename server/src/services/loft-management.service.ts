@@ -33,8 +33,6 @@ export class LoftManagementService {
     }
 
     async searchLofts(query: string, userId: string): Promise<Loft[]> {
-        if (!query.length) return [];
-
         const words = query.split(/\s+/);
 
         const lofts: Loft[] = await this.postgresDb.sql<Loft[]>`

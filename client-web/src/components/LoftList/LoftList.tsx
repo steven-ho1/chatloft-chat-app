@@ -23,12 +23,6 @@ const LoftList = () => {
         }
     };
 
-    const searchLoft = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-        socket.emit("searchLofts", { query: query.trim().toLowerCase() });
-    };
-
     const joinLoft = (loftId: string) => {
         socket.emit("joinLoft", { loftId });
     };
@@ -36,6 +30,11 @@ const LoftList = () => {
     const openLoft = (loftId: string) => {
         navigate(`/lofts/${loftId}`);
     };
+
+    useEffect(() => {
+        socket.emit("searchLofts", { query: searchQuery.trim().toLowerCase() });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchQuery]);
 
     useEffect(() => {
         socket.on("loftCreated", (loft: Loft) => {
@@ -90,7 +89,11 @@ const LoftList = () => {
                 ))}
             </ul>
             <h2>Chercher des lofts</h2>
-            <input type="text" value={searchQuery} onChange={searchLoft} />
+            <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <ul>
                 {searchedLofts.map((loft: Loft) => (
                     <li key={loft.id}>

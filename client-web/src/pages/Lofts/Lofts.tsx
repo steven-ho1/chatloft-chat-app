@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import ChatList from "../../components/ChatList/ChatList";
-import ChatWindow from "../../components/ChatWindow/ChatWindow";
+import LoftList from "../../components/LoftList/LoftList";
+import LoftWindow from "../../components/LoftWindow/LoftWindow";
 import { SocketProvider } from "../../contexts/Socket/SocketProvider";
-import "./Chats.css";
+import "./Lofts.css";
 
-const Chats = () => {
+const Lofts = () => {
     const navigate = useNavigate();
     const logout = () => {
         localStorage.removeItem("token");
@@ -12,10 +12,10 @@ const Chats = () => {
     };
 
     return (
-        <div className="chat-container">
+        <div className="loft-container">
             <SocketProvider>
-                <ChatList />
-                <ChatWindow />
+                <LoftList />
+                <LoftWindow />
                 <div>
                     <button onClick={logout}>Logout</button>
                 </div>
@@ -24,4 +24,4 @@ const Chats = () => {
     );
 };
 
-export default Chats;
+export default Lofts;

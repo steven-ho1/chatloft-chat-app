@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Loft } from "../../../../common/loft";
 import { useSocket } from "../../hooks/socket";
+import "./LoftList.css";
 
-const ChatList = () => {
+const LoftList = () => {
     const [userLofts, setUserLofts] = useState<Loft[]>([]);
     const [searchedLofts, setSearchedLofts] = useState<Loft[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
@@ -104,6 +105,6 @@ const ChatList = () => {
     );
 };
 
-export default ChatList;
+export default LoftList;
 
 // https://medium.com/@kishorkrishna/cant-access-latest-state-inside-socket-io-listener-heres-how-to-fix-it-1522a5abebdb

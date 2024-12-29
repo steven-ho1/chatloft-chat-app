@@ -51,7 +51,7 @@ const RegisterForm = () => {
                     localStorage.setItem("token", data.token!);
                     setUser(data.user!);
 
-                    navigate("/chats");
+                    navigate("/lofts");
                 } catch (error) {
                     console.error(error);
                 }

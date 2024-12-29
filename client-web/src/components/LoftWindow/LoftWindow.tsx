@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSocket } from "../../hooks/socket";
 import { useUser } from "../../hooks/user";
+import "./LoftWindow.css";
 
-const ChatWindow = () => {
+const LoftWindow = () => {
     const socket = useSocket();
     const [message, setMessage] = useState("");
     const { user } = useUser();
@@ -25,9 +26,9 @@ const ChatWindow = () => {
     });
     return (
         <div>
-            <div className="chat-bar">{user?.fullName}</div>
-            <div className="messages-container"></div>
-            <form className="input-container" onSubmit={sendMessage}>
+            <div>{user?.fullName}</div>
+            <div></div>
+            <form onSubmit={sendMessage}>
                 <input
                     type="text"
                     value={message}
@@ -39,4 +40,4 @@ const ChatWindow = () => {
     );
 };
 
-export default ChatWindow;
+export default LoftWindow;

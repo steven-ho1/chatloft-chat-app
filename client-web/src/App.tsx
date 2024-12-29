@@ -7,7 +7,7 @@ import { useUser } from "./hooks/user";
 import Login from "./pages/auth/Login/Login";
 import PasswordReset from "./pages/auth/PasswordReset/PasswordReset";
 import Register from "./pages/auth/Register/Register";
-import Chats from "./pages/Chats/Chats";
+import Lofts from "./pages/Lofts/Lofts";
 import { HttpMethod } from "./types/httpMethods";
 import { EndPoint, getEndPoint } from "./utils/apiConfig";
 
@@ -37,7 +37,7 @@ const App: () => React.JSX.Element = () => {
                 localStorage.setItem("token", data.token!);
                 setUser(data.user!);
 
-                navigate("/chats");
+                navigate("/lofts");
             } catch (error) {
                 console.error(error);
                 navigate("/login");
@@ -67,11 +67,11 @@ const App: () => React.JSX.Element = () => {
         <div className="app">
             <Routes>
                 <Route element={<AuthLayout />}>
-                    <Route path="login" element={<Login />} />
-                    <Route path="register" element={<Register />} />
-                    <Route path="password-reset" element={<PasswordReset />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/password-reset" element={<PasswordReset />} />
                 </Route>
-                <Route path="chats" element={<Chats />} />
+                <Route path="/lofts" element={<Lofts />} />
             </Routes>
         </div>
     );

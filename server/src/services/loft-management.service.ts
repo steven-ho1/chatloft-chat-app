@@ -1,4 +1,5 @@
 import { Loft } from "@common/loft";
+import { Default } from "@src/types/defaults";
 import { Service } from "typedi";
 import { PostgresDbService } from "./postgres-db.service";
 
@@ -7,9 +8,19 @@ export class LoftManagementService {
     constructor(private postgresDb: PostgresDbService) {}
 
     async createLoft(loftData: Loft, userId: string): Promise<Loft> {
+        loftData.description = loftData.description?.trim();
+
         const lofts: Loft[] = await this.postgresDb.sql<Loft[]>`
             INSERT INTO lofts (name, description, profile_pic_url, owner_id)
-            VALUES (${loftData.name}, ${loftData.description}, ${loftData.profilePicUrl}, ${userId})
+            VALUES (${loftData.name}, ${
+            loftData.description
+                ? loftData.description
+                : Default.LoftDescription
+        }, ${
+            loftData.profilePicUrl
+                ? loftData.profilePicUrl
+                : Default.LoftProfilePicUrl
+        }, ${userId})
             RETURNING *;
         `;
 

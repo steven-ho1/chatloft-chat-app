@@ -26,7 +26,7 @@ export class PostgresDbService {
             CREATE TABLE IF NOT EXISTS users (
                 id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                 full_name VARCHAR(100) NOT NULL,
-                profile_pic_url TEXT
+                profile_pic_url TEXT NOT NULL
             );
         `;
 
@@ -43,8 +43,8 @@ export class PostgresDbService {
             CREATE TABLE IF NOT EXISTS lofts (
                 id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                 name VARCHAR(100) NOT NULL UNIQUE,
-                description VARCHAR(250),
-                profile_pic_url TEXT,
+                description VARCHAR(250) NOT NULL,
+                profile_pic_url TEXT NOT NULL,
                 owner_id UUID NOT NULL,
                 FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
             );

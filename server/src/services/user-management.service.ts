@@ -1,5 +1,6 @@
 import { AuthData, Credentials } from "@common/auth";
-import { DEFAULT_PROFILE_PIC, User } from "@common/user";
+import { User } from "@common/user";
+import { Default } from "@src/types/defaults";
 import { compare, hash } from "bcryptjs";
 import { Service } from "typedi";
 import { PostgresDbService } from "./postgres-db.service";
@@ -55,7 +56,7 @@ export class UserManagementService {
     private async insertUser(authData: AuthData) {
         const result: User[] = await this.postgresDb.sql<User[]>`
             INSERT INTO users (full_name, profile_pic_url)
-            VALUES (${authData.fullName!}, ${DEFAULT_PROFILE_PIC})
+            VALUES (${authData.fullName!}, ${Default.UserProfilePicUrl})
             RETURNING *;
         `;
 

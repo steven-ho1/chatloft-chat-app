@@ -16,7 +16,7 @@ const LoftList = () => {
             const loft: Loft = {
                 name: loftName,
                 description: "",
-                profilePicUrl: "",
+                profilePicUrl: null,
             };
 
             socket.emit("createLoft", loft);

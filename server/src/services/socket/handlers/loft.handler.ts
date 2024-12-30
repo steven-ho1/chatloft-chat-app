@@ -22,7 +22,7 @@ export class LoftHandler {
                     await this.loftManagementService.createLoft(loft, userId);
                 socket.emit("loftCreated", newLoft);
             } catch (error) {
-                console.log(error);
+                console.log("Error while creating loft\n", error);
             }
         });
 
@@ -33,7 +33,7 @@ export class LoftHandler {
 
                 sio.emit("userLoftsFetched", lofts);
             } catch (error) {
-                console.log(error);
+                console.log("Error while fetching user lofts\n", error);
             }
         });
 
@@ -50,7 +50,7 @@ export class LoftHandler {
                     await this.loftManagementService.searchLofts(query, userId);
                 socket.emit("loftsFound", lofts);
             } catch (error) {
-                console.log(error);
+                console.log("Error while fetching searching lofts\n", error);
             }
         });
 
@@ -63,7 +63,7 @@ export class LoftHandler {
 
                 socket.emit("loftJoined", loft);
             } catch (error) {
-                console.log(error);
+                console.log("Error while joining loft\n", error);
             }
         });
 
@@ -83,7 +83,7 @@ export class LoftHandler {
                 socket.leave(currentLoftId);
                 currentLoftId = data.loftId;
             } catch (error) {
-                console.log(error);
+                console.log("Error while entering loft\n", error);
             }
         });
     }

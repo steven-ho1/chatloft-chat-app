@@ -9,10 +9,16 @@ export class MessageHandler {
 
     setListeners(socket: io.Socket, sio: io.Server) {
         socket.on("sendMessage", async (message: Message) => {
-            const savedMessage: Message =
-                await this.messageManagementService.saveMessageToBd(message);
+            try {
+                const savedMessage: Message =
+                    await this.messageManagementService.saveMessageToBd(
+                        message
+                    );
 
-            sio.to(message.loftId).emit("newMessage", savedMessage);
+                sio.to(message.loftId).emit("newMessage", savedMessage);
+            } catch (error) {
+                console.log("Error while sending message:\n", error);
+            }
         });
     }
 }

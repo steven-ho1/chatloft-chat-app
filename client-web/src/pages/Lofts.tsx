@@ -1,10 +1,9 @@
 import { Grid2 } from "@mui/material";
 import { useState } from "react";
-import { Loft } from "../../../../common/loft";
-import LoftList from "../../components/LoftList/LoftList";
-import LoftWindow from "../../components/LoftWindow/LoftWindow";
-import { SocketProvider } from "../../contexts/Socket/SocketProvider";
-import "./Lofts.css";
+import { Loft } from "../../../common/loft";
+import LoftList from "../components/LoftList";
+import LoftWindow from "../components/LoftWindow";
+import { SocketProvider } from "../contexts/Socket/SocketProvider";
 
 // TODO Responsive design and divider?
 const Lofts = () => {

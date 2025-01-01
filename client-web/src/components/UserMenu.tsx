@@ -12,9 +12,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/logo.png";
-import { useUser } from "../../hooks/user";
-import "./UserMenu.css";
+import logo from "../assets/logo.png";
+import { useUser } from "../hooks/user";
 
 const UserMenu = () => {
     const navigate = useNavigate();
@@ -42,7 +41,7 @@ const UserMenu = () => {
                 alignItems="center"
                 size="grow"
             >
-                <img src={logo} alt="ChatLoft" className="logo" />
+                <img src={logo} alt="ChatLoft" style={{ width: "40px" }} />
             </Grid2>
             <Grid2 size={9}>
                 <Button
@@ -54,6 +53,7 @@ const UserMenu = () => {
                         justifyContent: "space-between",
                         color: "black",
                         bgcolor: "grey.100",
+                        padding: 1,
                     }}
                 >
                     <Box display="flex" alignItems="center">

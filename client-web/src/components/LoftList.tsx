@@ -12,10 +12,9 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Loft } from "../../../../common/loft";
-import { useSocket } from "../../hooks/socket";
-import UserMenu from "../UserMenu/UserMenu";
-import "./LoftList.css";
+import { Loft } from "../../../common/loft";
+import { useSocket } from "../hooks/socket";
+import UserMenu from "./UserMenu";
 
 const LoftList = ({
     activeLoft,

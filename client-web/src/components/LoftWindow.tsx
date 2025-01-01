@@ -12,11 +12,10 @@ import {
     Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Loft } from "../../../../common/loft";
-import { Message } from "../../../../common/message";
-import { useSocket } from "../../hooks/socket";
-import { useUser } from "../../hooks/user";
-import "./LoftWindow.css";
+import { Loft } from "../../../common/loft";
+import { Message } from "../../../common/message";
+import { useSocket } from "../hooks/socket";
+import { useUser } from "../hooks/user";
 
 const LoftWindow = ({ activeLoft }: { activeLoft: Loft | null }) => {
     const socket = useSocket();

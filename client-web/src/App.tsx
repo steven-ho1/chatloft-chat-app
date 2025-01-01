@@ -7,7 +7,7 @@ import { useUser } from "./hooks/user";
 import Login from "./pages/auth/Login/Login";
 import PasswordReset from "./pages/auth/PasswordReset/PasswordReset";
 import Register from "./pages/auth/Register/Register";
-import Lofts from "./pages/Lofts/Lofts";
+import Lofts from "./pages/Lofts";
 import { HttpMethod } from "./types/httpMethods";
 import { EndPoint, getEndPoint } from "./utils/apiConfig";
 

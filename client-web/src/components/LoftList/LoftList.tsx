@@ -1,15 +1,35 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Add } from "@mui/icons-material";
+import {
+    Avatar,
+    Box,
+    Fab,
+    List,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText,
+    Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loft } from "../../../../common/loft";
 import { useSocket } from "../../hooks/socket";
+import UserMenu from "../UserMenu/UserMenu";
 import "./LoftList.css";
 
-const LoftList = () => {
+const LoftList = ({
+    activeLoft,
+    setActiveLoft,
+}: {
+    activeLoft: Loft | null;
+    setActiveLoft: React.Dispatch<React.SetStateAction<Loft | null>>;
+}) => {
     const [userLofts, setUserLofts] = useState<Loft[]>([]);
     const [searchedLofts, setSearchedLofts] = useState<Loft[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const socket = useSocket();
     const navigate = useNavigate();
+
     const createLoft = () => {
         const loftName = prompt("Channel name");
         if (loftName?.trim().length) {
@@ -27,8 +47,9 @@ const LoftList = () => {
         socket.emit("joinLoft", { loftId });
     };
 
-    const openLoft = (loftId: string) => {
-        navigate(`/lofts/${loftId}`);
+    const openLoft = (loft: Loft) => {
+        setActiveLoft(loft);
+        navigate(`/lofts/${loft.id}`);
     };
 
     useEffect(() => {
@@ -79,35 +100,60 @@ const LoftList = () => {
 
     return (
         <div>
-            <button onClick={createLoft}>Create Loft</button>
-            <h2>Lofts</h2>
-            <ul>
-                {userLofts.map((loft: Loft) => (
-                    <li key={loft.id} onClick={() => openLoft(loft.id!)}>
-                        {loft.name}
-                    </li>
-                ))}
-            </ul>
-            <h2>Chercher des lofts</h2>
-            <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <ul>
-                {searchedLofts.map((loft: Loft) => (
-                    <li key={loft.id}>
-                        {loft.name}{" "}
-                        {loft.isMember ? (
-                            <span>Joined</span>
-                        ) : (
-                            <button onClick={() => joinLoft(loft.id!)}>
-                                Join
-                            </button>
-                        )}
-                    </li>
-                ))}
-            </ul>
+            <UserMenu />
+            <Box
+                sx={{
+                    height: "100%",
+                    overflowY: "auto",
+                    backgroundColor: "#f4f4f4",
+                    padding: 2,
+                }}
+            >
+                <Typography variant="h6" gutterBottom>
+                    Lofts
+                </Typography>
+                <Fab size="small" onClick={createLoft}>
+                    <Add />
+                </Fab>
+                <List>
+                    {userLofts.map((loft: Loft) => (
+                        <ListItemButton
+                            key={loft.id}
+                            onClick={() => openLoft(loft)}
+                            selected={activeLoft?.id === loft.id}
+                        >
+                            <ListItemAvatar>
+                                <Avatar
+                                    alt="Profile pic"
+                                    src={loft.profilePicUrl!}
+                                    sx={{ border: "1px solid #424242" }}
+                                />
+                            </ListItemAvatar>
+                            <ListItemText primary={loft.name} />
+                        </ListItemButton>
+                    ))}
+                </List>
+                <h2>Chercher des lofts</h2>
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <ul>
+                    {searchedLofts.map((loft: Loft) => (
+                        <li key={loft.id}>
+                            {loft.name}{" "}
+                            {loft.isMember ? (
+                                <span>Joined</span>
+                            ) : (
+                                <button onClick={() => joinLoft(loft.id!)}>
+                                    Join
+                                </button>
+                            )}
+                        </li>
+                    ))}
+                </ul>
+            </Box>
         </div>
     );
 };

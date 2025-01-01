@@ -23,6 +23,16 @@ export class SocketService {
     }
 
     handleEvents() {
+        this.sio.use((socket, next) => {
+            const { userId } = socket.handshake.auth;
+            if (userId) {
+                console.log("User connected:", userId);
+                return next();
+            }
+
+            next(new Error("Authentication error"));
+        });
+
         this.sio.on("connection", (socket) => {
             this.loftHandler.setListeners(socket, this.sio);
             this.messageHandler.setListeners(socket, this.sio);

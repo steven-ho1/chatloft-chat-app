@@ -1,7 +1,6 @@
 import { ArrowDropDown, Logout, Person, Settings } from "@mui/icons-material";
 import {
     Avatar,
-    Box,
     Button,
     Grid2,
     ListItemIcon,
@@ -12,7 +11,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
+import logo from "../../public/logo.png";
 import { useUser } from "../hooks/user";
 
 const UserMenu = () => {
@@ -45,7 +44,6 @@ const UserMenu = () => {
             </Grid2>
             <Grid2 size={9}>
                 <Button
-                    id="user-menu-button"
                     fullWidth
                     onClick={handleClick}
                     sx={{
@@ -55,55 +53,57 @@ const UserMenu = () => {
                         bgcolor: "grey.100",
                         padding: 1,
                     }}
-                >
-                    <Box display="flex" alignItems="center">
-                        <Avatar
-                            alt="Profile pic"
-                            src={user?.profilePicUrl as string}
-                            sx={{ mr: 1 }}
+                    endIcon={
+                        <ArrowDropDown
+                            sx={{
+                                transform: open
+                                    ? "rotate(180deg)"
+                                    : "rotate(0deg)",
+                                transition: "transform 0.3s ease",
+                            }}
                         />
-                        <Typography>{user?.fullName}</Typography>
-                    </Box>
-                    <ArrowDropDown
-                        sx={{
-                            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-                            transition: "transform 0.3s ease",
-                        }}
+                    }
+                >
+                    <Avatar
+                        alt="Profile pic"
+                        src={user?.profilePicUrl as string}
+                        sx={{ mr: 1 }}
                     />
+                    <Typography>{user?.fullName}</Typography>
                 </Button>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                    }}
+                    transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                    }}
+                >
+                    <MenuItem>
+                        <ListItemIcon>
+                            <Person fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary="Profile"></ListItemText>
+                    </MenuItem>
+                    <MenuItem>
+                        <ListItemIcon>
+                            <Settings fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary="Account settings"></ListItemText>
+                    </MenuItem>
+                    <MenuItem onClick={logout}>
+                        <ListItemIcon>
+                            <Logout />
+                        </ListItemIcon>
+                        <ListItemText primary="Log out"></ListItemText>
+                    </MenuItem>
+                </Menu>
             </Grid2>
-            <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
-                }}
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-            >
-                <MenuItem>
-                    <ListItemIcon>
-                        <Person fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary="Profile"></ListItemText>
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary="Account settings"></ListItemText>
-                </MenuItem>
-                <MenuItem onClick={logout}>
-                    <ListItemIcon>
-                        <Logout />
-                    </ListItemIcon>
-                    <ListItemText primary="Log out"></ListItemText>
-                </MenuItem>
-            </Menu>
         </Grid2>
     );
 };

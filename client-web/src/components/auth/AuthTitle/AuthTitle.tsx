@@ -1,4 +1,4 @@
-import logo from "../../../assets/logo.png";
+import logo from "../../../../public/logo.png";
 import "./AuthTitle.css";
 
 const AuthTitle = ({ heading }: { heading: string }) => {

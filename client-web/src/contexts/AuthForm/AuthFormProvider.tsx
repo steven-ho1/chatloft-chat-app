@@ -7,18 +7,14 @@ export const AuthFormProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [authData, setAuthData] = useState<AuthData>({
+    const initialState: AuthData = {
         fullName: "",
         email: "",
         password: "",
-    });
+    };
+    const [authData, setAuthData] = useState<AuthData>(initialState);
 
-    const resetAuthData = () =>
-        setAuthData({
-            fullName: "",
-            email: "",
-            password: "",
-        });
+    const resetAuthData = () => setAuthData(initialState);
 
     return (
         <AuthFormContext.Provider

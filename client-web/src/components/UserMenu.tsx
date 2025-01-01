@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../public/logo.png";
 import { useUser } from "../hooks/user";
+import logo from "/logo.png";
 
 const UserMenu = () => {
     const navigate = useNavigate();
@@ -51,7 +51,6 @@ const UserMenu = () => {
                         justifyContent: "space-between",
                         color: "black",
                         bgcolor: "grey.100",
-                        padding: 1,
                     }}
                     endIcon={
                         <ArrowDropDown

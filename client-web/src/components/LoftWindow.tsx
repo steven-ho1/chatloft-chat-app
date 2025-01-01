@@ -12,13 +12,14 @@ import {
     Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Loft } from "../../../common/loft";
 import { Message } from "../../../common/message";
+import { useLoft } from "../hooks/loft";
 import { useSocket } from "../hooks/socket";
 import { useUser } from "../hooks/user";
 
-const LoftWindow = ({ activeLoft }: { activeLoft: Loft | null }) => {
+const LoftWindow = () => {
     const socket = useSocket();
+    const { activeLoft } = useLoft();
     const [messageContent, setMessageContent] = useState("");
     const { user } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);

@@ -24,11 +24,12 @@ export default function CreateLoftDialog({
     onClose: () => void;
     onSubmit: (newLoft: Loft) => void;
 }) {
-    const [newLoft, setNewLoft] = useState<Loft>({
+    const initialState: Loft = {
         name: "",
         description: "",
         profilePicUrl: null,
-    });
+    };
+    const [newLoft, setNewLoft] = useState<Loft>(initialState);
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -43,10 +44,15 @@ export default function CreateLoftDialog({
         onClose();
     };
 
+    const handleClosing = () => {
+        setNewLoft(initialState);
+        onClose();
+    };
+
     return (
         <Dialog
             open={open}
-            onClose={onClose}
+            onClose={handleClosing}
             fullWidth
             maxWidth="sm"
             fullScreen={fullScreen}
@@ -86,6 +92,7 @@ export default function CreateLoftDialog({
                             margin="normal"
                             value={newLoft.name}
                             onChange={handleChange}
+                            autoFocus
                         />
                         <TextField
                             name="description"
@@ -104,7 +111,7 @@ export default function CreateLoftDialog({
                 <Button onClick={handleSubmit} variant="contained">
                     Create
                 </Button>
-                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={handleClosing}>Cancel</Button>
             </DialogActions>
         </Dialog>
     );

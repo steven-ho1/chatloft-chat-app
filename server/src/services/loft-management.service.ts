@@ -8,6 +8,7 @@ export class LoftManagementService {
     constructor(private postgresDb: PostgresDbService) {}
 
     async createLoft(loftData: Loft, userId: string): Promise<Loft> {
+        loftData.name = loftData.name?.trim();
         loftData.description = loftData.description?.trim();
 
         const lofts: Loft[] = await this.postgresDb.sql<Loft[]>`
@@ -57,7 +58,9 @@ export class LoftManagementService {
         `;
 
         const loftsFound: Loft[] = lofts.filter((loft: Loft) =>
-            words.every((word: string) => loft.name.includes(word))
+            words.every((word: string) =>
+                loft.name.toLowerCase().includes(word)
+            )
         );
 
         return loftsFound;

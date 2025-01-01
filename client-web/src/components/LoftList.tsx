@@ -13,13 +13,16 @@ import { Loft } from "../../../common/loft";
 import { useLoft } from "../hooks/loft";
 import { useSocket } from "../hooks/socket";
 
+const DEBOUNCE_DELAY = 300;
+
 const LoftList = () => {
     const socket = useSocket();
     const { activeLoft, setActiveLoft } = useLoft();
 
     const [userLofts, setUserLofts] = useState<Loft[]>([]);
-
+    const [filteredLofts, setFilteredLofts] = useState<Loft[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>("");
+
     const navigate = useNavigate();
 
     const openLoft = (loft: Loft) => {
@@ -42,7 +45,29 @@ const LoftList = () => {
             socket.off("loftCreated");
             socket.off("userLoftsFetched");
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        const debounceTimer = setTimeout(() => {
+            const words: string[] = searchQuery
+                .trim()
+                .toLowerCase()
+                .split(/\s+/);
+
+            const loftsFound: Loft[] = userLofts.filter((loft: Loft) =>
+                words.every((word: string) =>
+                    loft.name.toLowerCase().includes(word)
+                )
+            );
+
+            setFilteredLofts(loftsFound);
+        }, DEBOUNCE_DELAY);
+
+        return () => {
+            clearTimeout(debounceTimer);
+        };
+    }, [userLofts, searchQuery]);
 
     return (
         <div>
@@ -56,9 +81,9 @@ const LoftList = () => {
                     setSearchQuery(e.target.value);
                 }}
             />
-            {userLofts.length ? (
+            {filteredLofts.length ? (
                 <List>
-                    {userLofts.map((loft: Loft) => (
+                    {filteredLofts.map((loft: Loft) => (
                         <ListItemButton
                             key={loft.id}
                             onClick={() => openLoft(loft)}

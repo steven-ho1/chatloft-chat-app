@@ -25,12 +25,11 @@ const CreateLoftDialog = ({
 }) => {
     const socket = useSocket();
 
-    const initialState: Loft = {
+    const [newLoft, setNewLoft] = useState<Loft>({
         name: "",
         description: "",
         profilePicUrl: null,
-    };
-    const [newLoft, setNewLoft] = useState<Loft>(initialState);
+    });
 
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -47,12 +46,10 @@ const CreateLoftDialog = ({
     const handleSubmit = () => {
         createLoft(newLoft);
         onClose();
-        setNewLoft(initialState);
     };
 
     const handleClosing = () => {
         onClose();
-        setNewLoft(initialState);
     };
 
     return (

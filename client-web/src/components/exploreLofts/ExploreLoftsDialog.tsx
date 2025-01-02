@@ -25,10 +25,10 @@ import { useSocket } from "../../hooks/socket";
 
 const ExploreLoftsDialog = ({
     open,
-    onClose,
+    toggleDialog,
 }: {
     open: boolean;
-    onClose: () => void;
+    toggleDialog: (isOpen: boolean) => void;
 }) => {
     const socket = useSocket();
 
@@ -78,7 +78,7 @@ const ExploreLoftsDialog = ({
     return (
         <Dialog
             open={open}
-            onClose={onClose}
+            onClose={() => toggleDialog(false)}
             maxWidth="sm"
             fullWidth
             fullScreen
@@ -91,7 +91,7 @@ const ExploreLoftsDialog = ({
                 }}
             >
                 Explore lofts
-                <IconButton onClick={onClose}>
+                <IconButton onClick={() => toggleDialog(false)}>
                     <Close />
                 </IconButton>
             </DialogTitle>

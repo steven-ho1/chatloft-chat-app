@@ -18,10 +18,10 @@ import { useSocket } from "../../hooks/socket";
 
 const CreateLoftDialog = ({
     open,
-    onClose,
+    toggleDialog,
 }: {
     open: boolean;
-    onClose: () => void;
+    toggleDialog: (isOpen: boolean) => void;
 }) => {
     const socket = useSocket();
 
@@ -45,11 +45,11 @@ const CreateLoftDialog = ({
 
     const handleSubmit = () => {
         createLoft(newLoft);
-        onClose();
+        toggleDialog(false);
     };
 
     const handleClosing = () => {
-        onClose();
+        toggleDialog(false);
     };
 
     return (

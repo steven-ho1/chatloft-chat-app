@@ -6,23 +6,18 @@ import CreateLoftDialog from "./CreateLoftDialog";
 const CreateLoftButton = () => {
     const [open, setOpen] = useState(false);
 
-    const openDialog = () => {
-        setOpen(true);
+    const toggleDialog = (isOpen: boolean) => {
+        setOpen(isOpen);
     };
-
-    const closeDialog = () => {
-        setOpen(false);
-    };
-
     return (
         <>
-            <Fab size="small" onClick={openDialog}>
+            <Fab size="small" onClick={() => toggleDialog(true)}>
                 <Add />
             </Fab>
             {open && (
                 <CreateLoftDialog
                     open={open}
-                    onClose={closeDialog}
+                    toggleDialog={toggleDialog}
                 ></CreateLoftDialog>
             )}
         </>

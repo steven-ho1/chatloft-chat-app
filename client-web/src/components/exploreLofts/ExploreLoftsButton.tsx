@@ -5,20 +5,19 @@ import ExploreLoftsDialog from "./ExploreLoftsDialog";
 
 const ExploreLoftsButton = () => {
     const [open, setOpen] = useState(false);
-    const openDialog = () => {
-        setOpen(true);
-    };
 
-    const closeDialog = () => {
-        setOpen(false);
+    const toggleDialog = (isOpen: boolean) => {
+        setOpen(isOpen);
     };
 
     return (
         <>
-            <Fab size="small" onClick={openDialog}>
+            <Fab size="small" onClick={() => toggleDialog(true)}>
                 <Explore />
             </Fab>
-            {open && <ExploreLoftsDialog open={open} onClose={closeDialog} />}
+            {open && (
+                <ExploreLoftsDialog open={open} toggleDialog={toggleDialog} />
+            )}
         </>
     );
 };

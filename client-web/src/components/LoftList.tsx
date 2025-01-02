@@ -1,5 +1,7 @@
+import { Search } from "@mui/icons-material";
 import {
     Avatar,
+    InputAdornment,
     List,
     ListItemAvatar,
     ListItemButton,
@@ -72,6 +74,7 @@ const LoftList = () => {
     return (
         <div>
             <TextField
+                id="search"
                 label="Search"
                 size="small"
                 margin="normal"
@@ -80,7 +83,24 @@ const LoftList = () => {
                 onChange={(e) => {
                     setSearchQuery(e.target.value);
                 }}
+                slotProps={{
+                    input: {
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <label
+                                    htmlFor="search"
+                                    style={{
+                                        display: "flex",
+                                    }}
+                                >
+                                    <Search />
+                                </label>
+                            </InputAdornment>
+                        ),
+                    },
+                }}
             />
+
             {filteredLofts.length ? (
                 <List>
                     {filteredLofts.map((loft: Loft) => (

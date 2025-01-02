@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { LoftContext } from "../contexts/Loft/LoftContext";
+import { LoftContext } from "../contexts/loft/LoftContext";
 
 export const useLoft = () => {
     const context = useContext(LoftContext);

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import AuthTitle from "../../../components/auth/AuthTitle/AuthTitle";
-import LoginForm from "../../../components/auth/LoginForm/LoginForm";
+import AuthTitle from "../../../components/auth/authTitle/AuthTitle";
+import LoginForm from "../../../components/auth/loginForm/LoginForm";
 import { useAuthForm } from "../../../hooks/authForm";
 import "../shared.css";
 import "./Login.css";

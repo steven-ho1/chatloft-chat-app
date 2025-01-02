@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { AuthFormProvider } from "../../../contexts/AuthForm/AuthFormProvider";
+import { AuthFormProvider } from "../../../contexts/authForm/AuthFormProvider";
 import "./AuthLayout.css";
 
 const AuthLayout = () => {

@@ -1,8 +1,8 @@
 import { Grid2 } from "@mui/material";
 import LoftWindow from "../components/LoftWindow";
 import Sidebar from "../components/Sidebar";
-import LoftProvider from "../contexts/Loft/LoftProvider";
-import { SocketProvider } from "../contexts/Socket/SocketProvider";
+import LoftProvider from "../contexts/loft/LoftProvider";
+import { SocketProvider } from "../contexts/socket/SocketProvider";
 
 // TODO Responsive design and divider?
 const Lofts = () => {

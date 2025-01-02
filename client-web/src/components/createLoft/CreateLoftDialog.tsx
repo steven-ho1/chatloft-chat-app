@@ -56,7 +56,6 @@ const CreateLoftDialog = ({
         <Dialog
             open={open}
             onClose={handleClosing}
-            fullWidth
             maxWidth="sm"
             fullScreen={fullScreen}
         >

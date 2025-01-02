@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import AuthTitle from "../../../components/auth/AuthTitle/AuthTitle";
-import RegisterForm from "../../../components/auth/RegisterForm/RegisterForm";
+import AuthTitle from "../../../components/auth/authTitle/AuthTitle";
+import RegisterForm from "../../../components/auth/registerForm/RegisterForm";
 import { useAuthForm } from "../../../hooks/authForm";
 import "../shared.css";
 import "./Register.css";

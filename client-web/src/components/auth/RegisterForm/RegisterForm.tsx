@@ -8,9 +8,9 @@ import { ErrorMessage } from "../../../types/error";
 import { HttpMethod } from "../../../types/httpMethods";
 import { EndPoint, getEndPoint } from "../../../utils/apiConfig";
 import { areFieldsComplete, handleFormChange } from "../../../utils/formUtils";
-import CredentialFields from "../CredentialFields/CredentialFields";
-import PasswordAdornment from "../PasswordAdornment/PasswordAdornment";
-import PasswordValidator from "../PasswordValidator/PasswordValidator";
+import CredentialFields from "../credentialFields/CredentialFields";
+import PasswordAdornment from "../passwordAdornment/PasswordAdornment";
+import PasswordValidator from "../passwordValidator/PasswordValidator";
 import "./RegisterForm.css";
 
 const RegisterForm = () => {

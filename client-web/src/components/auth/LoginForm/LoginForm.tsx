@@ -6,7 +6,7 @@ import { useUser } from "../../../hooks/user";
 import { HttpMethod } from "../../../types/httpMethods";
 import { EndPoint, getEndPoint } from "../../../utils/apiConfig";
 import { areFieldsComplete } from "../../../utils/formUtils";
-import CredentialFields from "../CredentialFields/CredentialFields";
+import CredentialFields from "../credentialFields/CredentialFields";
 import "./LoginForm.css";
 
 const LoginForm = () => {

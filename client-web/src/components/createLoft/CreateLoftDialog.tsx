@@ -13,17 +13,18 @@ import {
     useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { Loft } from "../../../common/loft";
+import { Loft } from "../../../../common/loft";
+import { useSocket } from "../../hooks/socket";
 
-export default function CreateLoftDialog({
+const CreateLoftDialog = ({
     open,
     onClose,
-    onSubmit,
 }: {
     open: boolean;
     onClose: () => void;
-    onSubmit: (newLoft: Loft) => void;
-}) {
+}) => {
+    const socket = useSocket();
+
     const initialState: Loft = {
         name: "",
         description: "",
@@ -39,14 +40,19 @@ export default function CreateLoftDialog({
         setNewLoft((prev) => ({ ...prev, [name]: value }));
     };
 
+    const createLoft = (newLoft: Loft) => {
+        socket.emit("createLoft", newLoft);
+    };
+
     const handleSubmit = () => {
-        onSubmit(newLoft);
+        createLoft(newLoft);
         onClose();
+        setNewLoft(initialState);
     };
 
     const handleClosing = () => {
-        setNewLoft(initialState);
         onClose();
+        setNewLoft(initialState);
     };
 
     return (
@@ -115,4 +121,6 @@ export default function CreateLoftDialog({
             </DialogActions>
         </Dialog>
     );
-}
+};
+
+export default CreateLoftDialog;

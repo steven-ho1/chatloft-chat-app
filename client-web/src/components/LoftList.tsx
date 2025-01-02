@@ -33,7 +33,7 @@ const LoftList = () => {
     };
 
     useEffect(() => {
-        socket.on("loftCreated", (loft: Loft) => {
+        socket.on("newUserLoft", (loft: Loft) => {
             setUserLofts((prevLofts) => [...prevLofts, loft]);
         });
 
@@ -44,7 +44,7 @@ const LoftList = () => {
         socket.emit("fetchUserLofts");
 
         return () => {
-            socket.off("loftCreated");
+            socket.off("newUserLoft");
             socket.off("userLoftsFetched");
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -74,7 +74,7 @@ const LoftList = () => {
     return (
         <div>
             <TextField
-                id="search"
+                id="user-lofts-search"
                 label="Search"
                 size="small"
                 margin="normal"
@@ -88,7 +88,7 @@ const LoftList = () => {
                         startAdornment: (
                             <InputAdornment position="start">
                                 <label
-                                    htmlFor="search"
+                                    htmlFor="user-lofts-search"
                                     style={{
                                         display: "flex",
                                     }}

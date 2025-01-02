@@ -20,7 +20,11 @@ export class LoftHandler {
             try {
                 const newLoft: Loft =
                     await this.loftManagementService.createLoft(loft, userId);
-                socket.emit("loftCreated", newLoft);
+
+                socket.emit("newUserLoft", newLoft);
+
+                newLoft.isMember = false;
+                socket.broadcast.emit("newLoftAvailable", newLoft);
             } catch (error) {
                 console.log("Error while creating loft\n", error);
             }
@@ -61,7 +65,9 @@ export class LoftHandler {
                     data.loftId
                 );
 
+                loft.isMember = true;
                 socket.emit("loftJoined", loft);
+                socket.emit("newUserLoft", loft);
             } catch (error) {
                 console.log("Error while joining loft\n", error);
             }

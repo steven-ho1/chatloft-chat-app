@@ -7,6 +7,10 @@ import {
     Box,
     Divider,
     IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
     TextField,
     Toolbar,
     Typography,
@@ -80,36 +84,41 @@ const LoftWindow = () => {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <Box
+            <List
                 sx={{
                     flex: 1,
-                    padding: 2,
-                    display: "flex",
-                    flexDirection: "column",
                     overflowY: "auto",
-                    gap: 1,
+                    padding: 2,
                 }}
             >
                 {messages.map((message: Message) => (
-                    <Box key={message.id} sx={{}}>
-                        <Box
-                            sx={{
-                                padding: 1,
-                                borderRadius: 2,
-                                backgroundColor:
-                                    message.senderId === user?.id
-                                        ? "primary.main"
-                                        : "#e0e0e0",
-                                maxWidth: "100%",
-                            }}
-                        >
-                            <Typography variant="body2">
-                                {message.content}
-                            </Typography>
-                        </Box>
-                    </Box>
+                    <ListItem key={message.id}>
+                        <ListItemAvatar>
+                            <Avatar />
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={
+                                <>
+                                    Temporary name
+                                    <Typography
+                                        component="span"
+                                        variant="caption"
+                                        color="textSecondary"
+                                        sx={{ ml: 1 }}
+                                    >
+                                        {message.timestamp}
+                                    </Typography>
+                                </>
+                            }
+                            secondary={
+                                <Typography variant="body2">
+                                    {message.content}
+                                </Typography>
+                            }
+                        />
+                    </ListItem>
                 ))}
-            </Box>
+            </List>
             <Divider flexItem />
             <Box
                 sx={{

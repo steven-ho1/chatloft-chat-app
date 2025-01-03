@@ -87,7 +87,7 @@ export class AuthController {
             });
             const token: string = this.tokenService.generateToken(newUser.id);
             const payload: AuthResponse = { user: newUser, token };
-            res.json(payload);
+            res.status(StatusCodes.CREATED).json(payload);
         } catch (error) {
             handleServerError(res, error, "Error on register");
         }

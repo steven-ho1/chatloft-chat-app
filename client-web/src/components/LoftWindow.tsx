@@ -15,11 +15,14 @@ import {
     Toolbar,
     Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Message } from "../../../common/message";
 import { useLoft } from "../hooks/loft";
 import { useSocket } from "../hooks/socket";
 import { useUser } from "../hooks/user";
+
+// Height in pixels where the user is still considered at the bottom
+const AUTO_SCROLL_THRESHOLD = 50;
 
 const LoftWindow = () => {
     const socket = useSocket();
@@ -27,6 +30,27 @@ const LoftWindow = () => {
     const [messageContent, setMessageContent] = useState("");
     const { user } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);
+    const [areMessagesFetched, setAreMessagesFetched] = useState(false);
+
+    const chatContainerRef = useRef<HTMLUListElement | null>(null);
+    const chatEndRef = useRef<HTMLDivElement | null>(null);
+
+    const isUserAtBottom = () => {
+        const chatContainer = chatContainerRef.current;
+        if (chatContainer) {
+            return (
+                chatContainer.scrollHeight -
+                    chatContainer.scrollTop -
+                    chatContainer.clientHeight <=
+                AUTO_SCROLL_THRESHOLD
+            );
+        }
+        return false;
+    };
+
+    const scrollToBottom = () => {
+        chatEndRef.current?.scrollIntoView();
+    };
 
     const sendMessage = () => {
         const message: Message = {
@@ -54,6 +78,7 @@ const LoftWindow = () => {
         });
 
         socket.on("loftMessagesFetched", (messages: Message[]) => {
+            setAreMessagesFetched(true);
             setMessages(messages);
         });
 
@@ -68,6 +93,17 @@ const LoftWindow = () => {
             socket.emit("enterLoft", { loftId: activeLoft.id });
         }
     }, [activeLoft]);
+
+    useEffect(() => {
+        if (areMessagesFetched) {
+            scrollToBottom();
+            setAreMessagesFetched(false);
+        }
+
+        if (isUserAtBottom()) {
+            scrollToBottom();
+        }
+    }, [messages]);
 
     return activeLoft ? (
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -85,6 +121,7 @@ const LoftWindow = () => {
                 </Toolbar>
             </AppBar>
             <List
+                ref={chatContainerRef}
                 sx={{
                     flex: 1,
                     overflowY: "auto",
@@ -118,6 +155,7 @@ const LoftWindow = () => {
                         />
                     </ListItem>
                 ))}
+                <div ref={chatEndRef} />
             </List>
             <Divider flexItem />
             <Box

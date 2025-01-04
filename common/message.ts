@@ -11,11 +11,7 @@ export interface Message extends MessageInput {
     timestamp: string;
 }
 
-export interface DbMessage {
-    id: string;
-    loftId: string;
-    senderId: string;
-    timestamp: string;
-    text: string;
-    imageUrl: string | null;
+export interface MessageGroup {
+    date: string;
+    messages: Message[];
 }

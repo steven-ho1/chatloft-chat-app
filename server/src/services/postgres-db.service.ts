@@ -65,7 +65,7 @@ export class PostgresDbService {
                 id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                 loft_id UUID NOT NULL,
                 sender_id UUID NOT NULL,
-                timestamp TIME NOT NULL,
+                timestamp TEXT NOT NULL,
                 text VARCHAR(250) NOT NULL,
                 image_url TEXT,
                 FOREIGN KEY (loft_id) REFERENCES lofts(id) ON DELETE CASCADE,

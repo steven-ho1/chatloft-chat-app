@@ -1,5 +1,5 @@
 import { Loft, LoftCreation } from "@common/loft";
-import { Message } from "@common/message";
+import { MessageGroup } from "@common/message";
 import { LoftManagementService } from "@src/services/loft-management.service";
 import { MessageManagementService } from "@src/services/message-management.service";
 import * as io from "socket.io";
@@ -79,11 +79,11 @@ export class LoftHandler {
                     await this.loftManagementService.doesLoftExist(data.loftId);
                 if (!loftExists) return;
 
-                const messages: Message[] =
+                const groupedMessages: MessageGroup[] =
                     await this.messageManagementService.fetchLoftMessages(
                         data.loftId
                     );
-                socket.emit("loftMessagesFetched", messages);
+                socket.emit("loftMessagesFetched", groupedMessages);
                 socket.join(data.loftId);
 
                 socket.leave(currentLoftId);

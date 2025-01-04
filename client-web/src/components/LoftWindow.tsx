@@ -15,8 +15,8 @@ import {
     Toolbar,
     Typography,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { Message, MessageInput } from "../../../common/message";
+import React, { useEffect, useRef, useState } from "react";
+import { Message, MessageGroup, MessageInput } from "../../../common/message";
 import { useLoft } from "../hooks/loft";
 import { useSocket } from "../hooks/socket";
 
@@ -27,7 +27,7 @@ const LoftWindow = () => {
     const socket = useSocket();
     const { activeLoft } = useLoft();
     const [messageText, setMessageText] = useState<string>("");
-    const [messages, setMessages] = useState<Message[]>([]);
+    const [messageGroups, setMessageGroups] = useState<MessageGroup[]>([]);
     const [areMessagesFetched, setAreMessagesFetched] =
         useState<boolean>(false);
 
@@ -68,15 +68,21 @@ const LoftWindow = () => {
 
     useEffect(() => {
         socket.on("newMessage", (message: Message) => {
-            setMessages((prevMessages: Message[]) => [
-                ...prevMessages,
-                message,
-            ]);
+            setMessageGroups((prevMessageGroups: MessageGroup[]) => {
+                const allButLast = prevMessageGroups.slice(0, -1);
+                const last = prevMessageGroups[prevMessageGroups.length - 1];
+                const updatedLastGroup = {
+                    ...last,
+                    messages: [...last.messages, message],
+                };
+
+                return [...allButLast, updatedLastGroup];
+            });
         });
 
-        socket.on("loftMessagesFetched", (messages: Message[]) => {
+        socket.on("loftMessagesFetched", (messageGroups: MessageGroup[]) => {
             setAreMessagesFetched(true);
-            setMessages(messages);
+            setMessageGroups(messageGroups);
         });
 
         return () => {
@@ -100,7 +106,7 @@ const LoftWindow = () => {
         if (isUserAtBottom()) {
             scrollToBottom();
         }
-    }, [messages]);
+    }, [messageGroups]);
 
     return activeLoft ? (
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
@@ -125,33 +131,58 @@ const LoftWindow = () => {
                     padding: 2,
                 }}
             >
-                {messages.map((message: Message) => (
-                    <ListItem key={message.id}>
-                        <ListItemAvatar>
-                            <Avatar src={message.sender.profilePicUrl} />
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={
-                                <>
-                                    {message.sender.fullName}
+                {messageGroups.map(
+                    (messageGroup: MessageGroup) =>
+                        messageGroup.messages.length > 0 && (
+                            <React.Fragment key={messageGroup.date}>
+                                <Divider>
                                     <Typography
-                                        component="span"
                                         variant="caption"
                                         color="textSecondary"
-                                        sx={{ ml: 1 }}
                                     >
-                                        {message.timestamp}
+                                        {messageGroup.date}
                                     </Typography>
-                                </>
-                            }
-                            secondary={
-                                <Typography variant="body2">
-                                    {message.content.text}
-                                </Typography>
-                            }
-                        />
-                    </ListItem>
-                ))}
+                                </Divider>
+                                {messageGroup.messages.map(
+                                    (message: Message) => (
+                                        <ListItem key={message.id}>
+                                            <ListItemAvatar>
+                                                <Avatar
+                                                    src={
+                                                        message.sender
+                                                            .profilePicUrl
+                                                    }
+                                                />
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={
+                                                    <>
+                                                        {
+                                                            message.sender
+                                                                .fullName
+                                                        }
+                                                        <Typography
+                                                            component="span"
+                                                            variant="caption"
+                                                            color="textSecondary"
+                                                            sx={{ ml: 1 }}
+                                                        >
+                                                            {message.timestamp}
+                                                        </Typography>
+                                                    </>
+                                                }
+                                                secondary={
+                                                    <Typography variant="body2">
+                                                        {message.content.text}
+                                                    </Typography>
+                                                }
+                                            />
+                                        </ListItem>
+                                    )
+                                )}
+                            </React.Fragment>
+                        )
+                )}
                 <div ref={chatEndRef} />
             </List>
             <Divider flexItem />

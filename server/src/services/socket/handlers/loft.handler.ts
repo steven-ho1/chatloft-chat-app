@@ -1,4 +1,4 @@
-import { Loft } from "@common/loft";
+import { Loft, LoftCreation } from "@common/loft";
 import { Message } from "@common/message";
 import { LoftManagementService } from "@src/services/loft-management.service";
 import { MessageManagementService } from "@src/services/message-management.service";
@@ -16,7 +16,7 @@ export class LoftHandler {
         const { userId } = socket.handshake.auth as { userId: string };
         let currentLoftId: string = "";
 
-        socket.on("createLoft", async (loft: Loft) => {
+        socket.on("createLoft", async (loft: LoftCreation) => {
             try {
                 const newLoft: Loft =
                     await this.loftManagementService.createLoft(loft, userId);

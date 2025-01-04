@@ -16,21 +16,20 @@ import {
     Typography,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { Message } from "../../../common/message";
+import { Message, MessageInput } from "../../../common/message";
 import { useLoft } from "../hooks/loft";
 import { useSocket } from "../hooks/socket";
-import { useUser } from "../hooks/user";
 
 // Height in pixels where the user is still considered at the bottom
-const AUTO_SCROLL_THRESHOLD = 50;
+const AUTO_SCROLL_THRESHOLD = 300;
 
 const LoftWindow = () => {
     const socket = useSocket();
     const { activeLoft } = useLoft();
-    const [messageContent, setMessageContent] = useState("");
-    const { user } = useUser();
+    const [messageText, setMessageText] = useState<string>("");
     const [messages, setMessages] = useState<Message[]>([]);
-    const [areMessagesFetched, setAreMessagesFetched] = useState(false);
+    const [areMessagesFetched, setAreMessagesFetched] =
+        useState<boolean>(false);
 
     const chatContainerRef = useRef<HTMLUListElement | null>(null);
     const chatEndRef = useRef<HTMLDivElement | null>(null);
@@ -49,18 +48,16 @@ const LoftWindow = () => {
     };
 
     const scrollToBottom = () => {
-        chatEndRef.current?.scrollIntoView();
+        chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const sendMessage = () => {
-        const message: Message = {
+        const messageInput: MessageInput = {
             loftId: activeLoft?.id as string,
-            senderId: user!.id,
-            content: messageContent.trim(),
-            imageUrl: null,
+            content: { text: messageText.trim(), imageUrl: null },
         };
-        socket.emit("sendMessage", message);
-        setMessageContent("");
+        socket.emit("sendMessage", messageInput);
+        setMessageText("");
     };
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -131,12 +128,12 @@ const LoftWindow = () => {
                 {messages.map((message: Message) => (
                     <ListItem key={message.id}>
                         <ListItemAvatar>
-                            <Avatar />
+                            <Avatar src={message.sender.profilePicUrl} />
                         </ListItemAvatar>
                         <ListItemText
                             primary={
                                 <>
-                                    Temporary name
+                                    {message.sender.fullName}
                                     <Typography
                                         component="span"
                                         variant="caption"
@@ -149,7 +146,7 @@ const LoftWindow = () => {
                             }
                             secondary={
                                 <Typography variant="body2">
-                                    {message.content}
+                                    {message.content.text}
                                 </Typography>
                             }
                         />
@@ -169,8 +166,8 @@ const LoftWindow = () => {
                     variant="filled"
                     fullWidth
                     placeholder="Type a message..."
-                    value={messageContent}
-                    onChange={(e) => setMessageContent(e.target.value)}
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
                     onKeyDown={handleKeyPress}
                 />
                 <IconButton onClick={sendMessage} color="primary">

@@ -4,7 +4,6 @@ import Sidebar from "../components/Sidebar";
 import LoftProvider from "../contexts/loft/LoftProvider";
 import { SocketProvider } from "../contexts/socket/SocketProvider";
 
-// TODO Responsive design and divider?
 const Lofts = () => {
     return (
         <SocketProvider>

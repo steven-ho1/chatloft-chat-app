@@ -1,4 +1,4 @@
-import { Loft } from "@common/loft";
+import { Loft, LoftCreation } from "@common/loft";
 import { Default } from "@src/types/defaults";
 import { Service } from "typedi";
 import { PostgresDbService } from "./postgres-db.service";
@@ -7,7 +7,7 @@ import { PostgresDbService } from "./postgres-db.service";
 export class LoftManagementService {
     constructor(private postgresDb: PostgresDbService) {}
 
-    async createLoft(loftData: Loft, userId: string): Promise<Loft> {
+    async createLoft(loftData: LoftCreation, userId: string): Promise<Loft> {
         loftData.name = loftData.name?.trim();
         loftData.description = loftData.description?.trim();
 

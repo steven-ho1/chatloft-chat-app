@@ -13,7 +13,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { Loft } from "../../../../common/loft";
+import { LoftCreation } from "../../../../common/loft";
 import { useSocket } from "../../hooks/socket";
 
 const CreateLoftDialog = ({
@@ -25,7 +25,7 @@ const CreateLoftDialog = ({
 }) => {
     const socket = useSocket();
 
-    const [newLoft, setNewLoft] = useState<Loft>({
+    const [newLoft, setNewLoft] = useState<LoftCreation>({
         name: "",
         description: "",
         profilePicUrl: null,
@@ -39,7 +39,7 @@ const CreateLoftDialog = ({
         setNewLoft((prev) => ({ ...prev, [name]: value }));
     };
 
-    const createLoft = (newLoft: Loft) => {
+    const createLoft = (newLoft: LoftCreation) => {
         socket.emit("createLoft", newLoft);
     };
 

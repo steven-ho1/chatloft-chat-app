@@ -34,7 +34,7 @@ export class SocketService {
         });
 
         this.sio.on("connection", (socket) => {
-            this.loftHandler.setListeners(socket, this.sio);
+            this.loftHandler.setListeners(socket);
             this.messageHandler.setListeners(socket, this.sio);
         });
     }

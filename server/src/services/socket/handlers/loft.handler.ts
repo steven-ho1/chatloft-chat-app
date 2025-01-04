@@ -12,7 +12,7 @@ export class LoftHandler {
         private messageManagementService: MessageManagementService
     ) {}
 
-    setListeners(socket: io.Socket, sio: io.Server) {
+    setListeners(socket: io.Socket) {
         const { userId } = socket.handshake.auth as { userId: string };
         let currentLoftId: string = "";
 
@@ -35,7 +35,7 @@ export class LoftHandler {
                 const lofts: Loft[] =
                     await this.loftManagementService.fetchUserLofts(userId);
 
-                sio.emit("userLoftsFetched", lofts);
+                socket.emit("userLoftsFetched", lofts);
             } catch (error) {
                 console.log("Error while fetching user lofts\n", error);
             }

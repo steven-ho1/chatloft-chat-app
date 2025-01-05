@@ -76,13 +76,7 @@ const ExploreLoftsDialog = ({
     }, []);
 
     return (
-        <Dialog
-            open={open}
-            onClose={() => toggleDialog(false)}
-            maxWidth="sm"
-            fullWidth
-            fullScreen
-        >
+        <Dialog open={open} maxWidth="sm" fullWidth fullScreen>
             <DialogTitle
                 sx={{
                     display: "flex",

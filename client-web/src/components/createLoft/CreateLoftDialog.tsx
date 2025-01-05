@@ -53,7 +53,7 @@ const CreateLoftDialog = ({
     };
 
     return (
-        <Dialog open={open} onClose={handleClosing} fullScreen={fullScreen}>
+        <Dialog open={open} fullScreen={fullScreen}>
             <DialogTitle>Create a new loft</DialogTitle>
             <DialogContent dividers>
                 <Grid2 container spacing={2}>

@@ -1,6 +1,7 @@
 import { Search } from "@mui/icons-material";
 import {
     Avatar,
+    Box,
     InputAdornment,
     List,
     ListItemAvatar,
@@ -72,7 +73,7 @@ const LoftList = () => {
     }, [userLofts, searchQuery]);
 
     return (
-        <div>
+        <Box sx={{ mt: 2 }}>
             <TextField
                 id="user-lofts-search"
                 label="Search"
@@ -130,7 +131,7 @@ const LoftList = () => {
                     No loft joined
                 </Typography>
             )}
-        </div>
+        </Box>
     );
 };
 

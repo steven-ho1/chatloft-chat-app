@@ -16,10 +16,11 @@ import logo from "/logo.png";
 
 const UserMenu = () => {
     const navigate = useNavigate();
-    const { user } = useUser();
+    const { user, setUser } = useUser();
 
     const logout = () => {
         localStorage.removeItem("token");
+        setUser(null);
         navigate("/login");
     };
 

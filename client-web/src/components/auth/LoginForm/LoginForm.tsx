@@ -38,7 +38,7 @@ const LoginForm = () => {
                 localStorage.setItem("token", data.token!);
                 setUser(data.user!);
 
-                navigate("/lofts");
+                navigate("/lofts", { replace: true });
             } catch (error) {
                 console.error(error);
             }

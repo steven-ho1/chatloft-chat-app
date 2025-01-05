@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { AuthResponse } from "../../common/auth";
 import "./App.css";
 import AuthLayout from "./components/auth/authLayout/AuthLayout";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import PublicRoute from "./components/auth/PublicRoute";
 import { useUser } from "./hooks/user";
 import Login from "./pages/auth/login/Login";
 import PasswordReset from "./pages/auth/passwordReset/PasswordReset";
@@ -66,13 +68,22 @@ const App: () => React.JSX.Element = () => {
     ) : (
         <div className="app">
             <Routes>
-                <Route element={<AuthLayout />}>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/password-reset" element={<PasswordReset />} />
+                <Route path="/" element={<Navigate to="/login" />}></Route>
+                <Route element={<PublicRoute />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route
+                            path="/password-reset"
+                            element={<PasswordReset />}
+                        />
+                    </Route>
                 </Route>
-                <Route path="/lofts" element={<Lofts />} />
-                <Route path="/lofts/:id" element={<Lofts />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/lofts" element={<Lofts />} />
+                    <Route path="/lofts/:id" element={<Lofts />} />
+                </Route>
+                <Route path="*" element={<Navigate to="/login" />}></Route>
             </Routes>
         </div>
     );

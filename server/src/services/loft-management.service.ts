@@ -1,5 +1,8 @@
 import { Loft, LoftCreation } from "@common/loft";
-import { Default } from "@src/types/defaults";
+import {
+    DEFAULT_LOFT_DESCRIPTION,
+    DEFAULT_LOFT_PROFILE_PIC_URL,
+} from "@src/types/defaults";
 import { Service } from "typedi";
 import { PostgresDbService } from "./postgres-db.service";
 
@@ -16,11 +19,11 @@ export class LoftManagementService {
             VALUES (${loftData.name}, ${
             loftData.description
                 ? loftData.description
-                : Default.LoftDescription
+                : DEFAULT_LOFT_DESCRIPTION
         }, ${
             loftData.profilePicUrl
                 ? loftData.profilePicUrl
-                : Default.LoftProfilePicUrl
+                : DEFAULT_LOFT_PROFILE_PIC_URL
         }, ${userId})
             RETURNING *;
         `;

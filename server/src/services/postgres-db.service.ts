@@ -19,7 +19,7 @@ export class PostgresDbService {
     }
 
     private async createTables() {
-        console.log("Creating tables...");
+        console.log("Setting tables...");
         await this.sql`SET client_min_messages TO WARNING;`;
 
         await this.sql`
@@ -72,7 +72,7 @@ export class PostgresDbService {
                 FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
             );
         `;
-        console.log("Tables created");
+        console.log("Tables ready");
     }
 
     private async testPostgresConnection() {

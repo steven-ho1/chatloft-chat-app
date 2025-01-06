@@ -1,5 +1,7 @@
-export enum Default {
-    UserProfilePicUrl = "https://bppvttctyerydpsrvixl.supabase.co/storage/v1/object/public/Profile%20Pictures/default-user-profile-pic.png",
-    LoftProfilePicUrl = "https://bppvttctyerydpsrvixl.supabase.co/storage/v1/object/public/Profile%20Pictures/default-loft-profile-pic.png",
-    LoftDescription = "No description",
-}
+export const LOCAL_PORT = "5000";
+
+const DOMAIN_URL = process.env.DOMAIN_URL || `http://localhost:${LOCAL_PORT}`;
+
+export const DEFAULT_USER_PROFILE_PIC_URL = `${DOMAIN_URL}/profile-pics/default-user-profile-pic.png`;
+export const DEFAULT_LOFT_PROFILE_PIC_URL = `${DOMAIN_URL}/profile-pics/default-loft-profile-pic.png`;
+export const DEFAULT_LOFT_DESCRIPTION = "No description";

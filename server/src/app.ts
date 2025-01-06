@@ -1,6 +1,7 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import path from "path";
 import { Service } from "typedi";
 import { AuthController } from "./controllers/auth.controller";
 import { UserController } from "./controllers/user.controller";
@@ -24,6 +25,8 @@ export class Application {
     }
 
     private bindRoutes(): void {
+        this.app.use(express.static(path.join(__dirname, "..", "public")));
+
         this.app.use("/api/auth", this.authController.router);
         this.app.use("/api/users", this.userController.router);
         this.app.use(this.handleNotFound);

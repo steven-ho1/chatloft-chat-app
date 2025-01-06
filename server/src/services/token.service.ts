@@ -14,7 +14,7 @@ export class TokenService {
             return;
         }
 
-        verify(token, process.env.TOKEN_SECRET!, (error, decodedToken) => {
+        verify(token, process.env.JWT_SECRET!, (error, decodedToken) => {
             try {
                 if (error) {
                     res.sendStatus(StatusCodes.UNAUTHORIZED);
@@ -38,7 +38,10 @@ export class TokenService {
     }
 
     generateToken(id: string) {
-        const token = sign({ id }, process.env.TOKEN_SECRET!);
+        const token = sign(
+            { id, sub: id, role: "authenticated", aud: "authenticated" },
+            process.env.JWT_SECRET!
+        );
         return token;
     }
 }

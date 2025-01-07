@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { Loft } from "../../../common/loft";
 import { useLoft } from "../hooks/loft";
 import { useSocket } from "../hooks/socket";
+import { LIMITS } from "../types/limits";
 
 const DEBOUNCE_DELAY = 300;
 
@@ -98,6 +99,9 @@ const LoftList = () => {
                                 </label>
                             </InputAdornment>
                         ),
+                        inputProps: {
+                            maxlength: LIMITS.SEARCH_QUERY_LENGTH,
+                        },
                     },
                 }}
             />

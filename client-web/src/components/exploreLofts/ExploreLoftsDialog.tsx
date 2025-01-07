@@ -22,6 +22,7 @@ import {
 import { useEffect, useState } from "react";
 import { Loft } from "../../../../common/loft";
 import { useSocket } from "../../hooks/socket";
+import { LIMITS } from "../../types/limits";
 
 const ExploreLoftsDialog = ({
     open,
@@ -124,6 +125,9 @@ const ExploreLoftsDialog = ({
                                     </label>
                                 </InputAdornment>
                             ),
+                            inputProps: {
+                                maxlength: LIMITS.SEARCH_QUERY_LENGTH,
+                            },
                         },
                     }}
                 />

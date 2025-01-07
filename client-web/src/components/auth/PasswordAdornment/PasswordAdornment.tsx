@@ -13,11 +13,7 @@ const PasswordAdornment = ({
 
     return (
         <InputAdornment position="end">
-            <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                edge="end"
-            >
+            <IconButton onClick={handleClickShowPassword} edge="end">
                 {showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
         </InputAdornment>

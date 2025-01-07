@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import { useAuthForm } from "../../../hooks/authForm";
+import { LIMITS } from "../../../types/limits";
 import { handleFormChange } from "../../../utils/formUtils";
 import PasswordAdornment from "../passwordAdornment/PasswordAdornment";
 
@@ -19,6 +20,13 @@ const CredentialFields = ({ error }: { error: string }) => {
                 onChange={(e) => handleFormChange(e, setAuthData)}
                 error={error ? true : false}
                 helperText={error ? error : " "}
+                slotProps={{
+                    input: {
+                        inputProps: {
+                            maxlength: LIMITS.EMAIL_LENGTH,
+                        },
+                    },
+                }}
             />
 
             <TextField
@@ -28,14 +36,18 @@ const CredentialFields = ({ error }: { error: string }) => {
                 type={showPassword ? "text" : "password"}
                 value={authData.password}
                 onChange={(e) => handleFormChange(e, setAuthData)}
-                InputProps={{
-                    //TODO
-                    endAdornment: (
-                        <PasswordAdornment
-                            showPassword={showPassword}
-                            setShowPassword={setShowPassword}
-                        />
-                    ),
+                slotProps={{
+                    input: {
+                        endAdornment: (
+                            <PasswordAdornment
+                                showPassword={showPassword}
+                                setShowPassword={setShowPassword}
+                            />
+                        ),
+                        inputProps: {
+                            maxlength: LIMITS.PASSWORD_LENGTH,
+                        },
+                    },
                 }}
             ></TextField>
         </>

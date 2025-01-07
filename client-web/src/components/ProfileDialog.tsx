@@ -16,6 +16,7 @@ import { useState } from "react";
 import { User } from "../../../common/user";
 import { useUser } from "../hooks/user";
 import { HttpMethod } from "../types/httpMethods";
+import { LIMITS } from "../types/limits";
 import { EndPoint, getEndPoint } from "../utils/apiConfig";
 
 const ProfileDialog = ({
@@ -130,6 +131,14 @@ const ProfileDialog = ({
                                             setName(e.target.value)
                                         }
                                         autoFocus
+                                        slotProps={{
+                                            input: {
+                                                inputProps: {
+                                                    maxlength:
+                                                        LIMITS.FULL_NAME_LENGTH,
+                                                },
+                                            },
+                                        }}
                                     />
                                 ) : (
                                     <>

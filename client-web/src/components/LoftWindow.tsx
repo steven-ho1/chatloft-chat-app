@@ -19,6 +19,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Message, MessageGroup, MessageInput } from "../../../common/message";
 import { useLoft } from "../hooks/loft";
 import { useSocket } from "../hooks/socket";
+import { LIMITS } from "../types/limits";
 
 // Height in pixels where the user is still considered at the bottom
 const AUTO_SCROLL_THRESHOLD = 300;
@@ -51,19 +52,23 @@ const LoftWindow = () => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    const sendMessage = () => {
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            if (messageText.trim()) {
+                sendMessage(event);
+            }
+        }
+    };
+
+    const sendMessage = (event: React.FormEvent) => {
+        event.preventDefault();
         const messageInput: MessageInput = {
             loftId: activeLoft?.id as string,
             content: { text: messageText.trim(), imageUrl: null },
         };
         socket.emit("sendMessage", messageInput);
         setMessageText("");
-    };
-
-    const handleKeyPress = (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === "Enter") {
-            sendMessage();
-        }
     };
 
     useEffect(() => {
@@ -172,7 +177,13 @@ const LoftWindow = () => {
                                                     </>
                                                 }
                                                 secondary={
-                                                    <Typography variant="body2">
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{
+                                                            "word-wrap":
+                                                                "break-word",
+                                                        }}
+                                                    >
                                                         {message.content.text}
                                                     </Typography>
                                                 }
@@ -187,21 +198,38 @@ const LoftWindow = () => {
             </List>
             <Divider flexItem />
             <Box
+                component={"form"}
                 sx={{
                     display: "flex",
                     alignItems: "center",
                     padding: 2,
                 }}
+                onSubmit={sendMessage}
             >
                 <TextField
                     variant="filled"
                     fullWidth
                     placeholder="Type a message..."
                     value={messageText}
+                    multiline
+                    maxRows={4}
                     onChange={(e) => setMessageText(e.target.value)}
-                    onKeyDown={handleKeyPress}
+                    onKeyDown={handleKeyDown}
+                    slotProps={{
+                        input: {
+                            inputProps: {
+                                maxlength: LIMITS.MESSAGE_CONTENT_LENGTH,
+                            },
+                        },
+                    }}
+                    autoFocus
                 />
-                <IconButton onClick={sendMessage} color="primary">
+                <IconButton
+                    onClick={sendMessage}
+                    color="primary"
+                    type="submit"
+                    disabled={!messageText.trim()}
+                >
                     <Send />
                 </IconButton>
             </Box>

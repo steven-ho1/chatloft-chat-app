@@ -6,6 +6,7 @@ import { useAuthForm } from "../../../hooks/authForm";
 import { useUser } from "../../../hooks/user";
 import { ErrorMessage } from "../../../types/error";
 import { HttpMethod } from "../../../types/httpMethods";
+import { LIMITS } from "../../../types/limits";
 import { EndPoint, getEndPoint } from "../../../utils/apiConfig";
 import { areFieldsComplete, handleFormChange } from "../../../utils/formUtils";
 import CredentialFields from "../credentialFields/CredentialFields";
@@ -68,6 +69,13 @@ const RegisterForm = () => {
                     name="fullName"
                     value={authData.fullName}
                     onChange={(e) => handleFormChange(e, setAuthData)}
+                    slotProps={{
+                        input: {
+                            inputProps: {
+                                maxlength: LIMITS.FULL_NAME_LENGTH,
+                            },
+                        },
+                    }}
                 />
                 <CredentialFields error={serverError} />
                 <PasswordValidator setIsPasswordValid={setIsPasswordValid} />
@@ -85,13 +93,16 @@ const RegisterForm = () => {
                             ? ErrorMessage.PasswordConfirmationError
                             : " "
                     }
-                    InputProps={{
-                        endAdornment: (
-                            <PasswordAdornment
-                                showPassword={showPassword}
-                                setShowPassword={setShowPassword}
-                            />
-                        ),
+                    slotProps={{
+                        input: {
+                            endAdornment: (
+                                <PasswordAdornment
+                                    showPassword={showPassword}
+                                    setShowPassword={setShowPassword}
+                                />
+                            ),
+                            inputProps: { maxlength: LIMITS.PASSWORD_LENGTH },
+                        },
                     }}
                 />
             </div>

@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { LoftCreation } from "../../../../common/loft";
 import { useSocket } from "../../hooks/socket";
+import { LIMITS } from "../../types/limits";
 
 const CreateLoftDialog = ({
     open,
@@ -90,6 +91,13 @@ const CreateLoftDialog = ({
                             value={newLoft.name}
                             onChange={handleChange}
                             autoFocus
+                            slotProps={{
+                                input: {
+                                    inputProps: {
+                                        maxlength: LIMITS.LOFT_NAME_LENGTH,
+                                    },
+                                },
+                            }}
                         />
                         <TextField
                             name="description"
@@ -100,6 +108,14 @@ const CreateLoftDialog = ({
                             rows={4}
                             value={newLoft.description}
                             onChange={handleChange}
+                            slotProps={{
+                                input: {
+                                    inputProps: {
+                                        maxlength:
+                                            LIMITS.LOFT_DESCRIPTION_LENGTH,
+                                    },
+                                },
+                            }}
                         />
                     </Grid2>
                 </Grid2>

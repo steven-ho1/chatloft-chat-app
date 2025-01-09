@@ -5,6 +5,6 @@ import { defineConfig } from "vite";
 export default defineConfig({
     plugins: [react()],
     server: {
-        open: "http://localhost:5173",
+        open: true,
     },
 });

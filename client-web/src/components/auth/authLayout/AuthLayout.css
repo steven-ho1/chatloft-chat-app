@@ -3,10 +3,7 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-
-    background: linear-gradient(
-        90deg,
-        rgba(200, 222, 230, 1) 0%,
-        rgba(57, 146, 253, 1) 55%
-    );
+    background-image: url("/bg-image.svg");
+    background-size: cover;
+    background-position: center;
 }

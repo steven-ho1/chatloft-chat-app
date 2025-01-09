@@ -3,6 +3,7 @@ export enum EndPoint {
     Register = "/api/auth/register",
     SessionLoading = "/api/auth/session-loading",
     Name = "/api/users/name",
+    ProfilePic = "/api/users/profile-pic",
 }
 
 export const getEndPoint = (endpoint: EndPoint) =>

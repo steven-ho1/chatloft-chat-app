@@ -100,7 +100,7 @@ const LoftList = () => {
                             </InputAdornment>
                         ),
                         inputProps: {
-                            maxlength: LIMITS.SEARCH_QUERY_LENGTH,
+                            maxLength: LIMITS.SEARCH_QUERY_LENGTH,
                         },
                     },
                 }}

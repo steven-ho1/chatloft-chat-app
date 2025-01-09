@@ -15,10 +15,63 @@ export class PostgresDbService {
         this.sql = postgres(connectionString!, { transform: postgres.toCamel });
 
         await this.testPostgresConnection();
-        await this.createTables();
+        await this.setTables();
+        await this.setRlsPolicies();
+    }
+    private async setRlsPolicies() {
+        console.log("Setting RLS policies...");
+        await this.sql`ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY`;
+
+        const policyResults = await this.sql`
+            SELECT policyname, tablename
+            FROM pg_policies
+            WHERE schemaname = 'storage'
+            AND tablename = 'objects'
+            AND (policyname = 'Users can update their own profile (select)'
+                OR policyname = 'Users can update their own profile (insert)'
+                OR policyname = 'Users can update their own profile (update)');
+        `;
+
+        if (!policyResults.length) {
+            await this.sql`
+                CREATE POLICY "Users can update their own profile (select)"
+                ON storage.objects
+                FOR SELECT
+                TO authenticated
+                USING (
+                    bucket_id = 'profile-pics'::text
+                );
+            `;
+
+            await this.sql`
+                CREATE POLICY "Users can update their own profile (insert)"
+                ON storage.objects
+                FOR INSERT
+                TO authenticated
+                WITH CHECK (
+                    bucket_id = 'profile-pics'::text
+                    and (storage.foldername(name))[1] = 'users'::text
+                    and (select auth.uid()::text) = (storage.foldername(name))[2]
+                );
+            `;
+
+            await this.sql`
+                CREATE POLICY "Users can update their own profile (update)"
+                ON storage.objects
+                FOR UPDATE
+                TO authenticated
+                USING (
+                    bucket_id = 'profile-pics'::text
+                    and (storage.foldername(name))[1] = 'users'::text
+                    and (select auth.uid()::text) = (storage.foldername(name))[2]
+                );
+            `;
+        }
+
+        console.log("RLS policies ready");
     }
 
-    private async createTables() {
+    private async setTables() {
         console.log("Setting tables...");
         await this.sql`SET client_min_messages TO WARNING;`;
 

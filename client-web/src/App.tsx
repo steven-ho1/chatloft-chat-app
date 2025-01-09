@@ -16,7 +16,7 @@ import { EndPoint, getEndPoint } from "./utils/apiConfig";
 const App: () => React.JSX.Element = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const { setUser } = useUser();
+    const { setUserSession } = useUser();
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -36,10 +36,7 @@ const App: () => React.JSX.Element = () => {
                 }
 
                 const data: AuthResponse = await response.json();
-                localStorage.setItem("token", data.token!);
-                setUser(data.user!);
-
-                navigate("/lofts");
+                setUserSession(data.user, data.token);
             } catch (error) {
                 console.error(error);
                 navigate("/login");

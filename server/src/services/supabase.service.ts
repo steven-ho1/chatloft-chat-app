@@ -1,9 +1,9 @@
+import { PROFILE_PICS_BUCKET } from "@src/types/defaults";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { configDotenv } from "dotenv";
 import { Service } from "typedi";
 
-const BUCKET_NAME = "Profile pictures";
-const FILE_SIZE_LIMIT = 200;
+const FILE_SIZE_LIMIT = 204800; // Bytes, which is 200 KB
 
 @Service()
 export class SupabaseService {
@@ -32,18 +32,21 @@ export class SupabaseService {
             }
 
             const bucketExists = buckets.some(
-                (bucket) => bucket.name === BUCKET_NAME
+                (bucket) => bucket.name === PROFILE_PICS_BUCKET
             );
             if (!bucketExists) {
                 console.log(
-                    `Bucket ${BUCKET_NAME} doesn't exist. Creating it now...`
+                    `Bucket ${PROFILE_PICS_BUCKET} doesn't exist. Creating it now...`
                 );
                 const { error: createError } =
-                    await this.supabase.storage.createBucket(BUCKET_NAME, {
-                        public: true,
-                        allowedMimeTypes: ["image/*"],
-                        fileSizeLimit: FILE_SIZE_LIMIT,
-                    });
+                    await this.supabase.storage.createBucket(
+                        PROFILE_PICS_BUCKET,
+                        {
+                            public: true,
+                            allowedMimeTypes: ["image/*"],
+                            fileSizeLimit: FILE_SIZE_LIMIT,
+                        }
+                    );
 
                 if (createError) {
                     throw new Error(

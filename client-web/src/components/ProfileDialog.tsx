@@ -1,4 +1,4 @@
-import { Close } from "@mui/icons-material";
+import { Close, Delete } from "@mui/icons-material";
 import {
     Avatar,
     Box,
@@ -11,12 +11,18 @@ import {
     IconButton,
     TextField,
     Typography,
+    useMediaQuery,
+    useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { User } from "../../../common/user";
 import { useUser } from "../hooks/user";
 import { HttpMethod } from "../types/httpMethods";
 import { LIMITS } from "../types/limits";
+import {
+    DEFAULT_USER_PROFILE_PIC_URL,
+    PROFILE_PICS_BUCKET,
+} from "../types/profile-pics";
 import { EndPoint, getEndPoint } from "../utils/apiConfig";
 
 const ProfileDialog = ({
@@ -24,8 +30,102 @@ const ProfileDialog = ({
 }: {
     handleDialogClose: () => void;
 }) => {
-    const { user, setUser } = useUser();
+    const { user, setUser, supabase } = useUser();
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const uploadRef = useRef<HTMLInputElement | null>(null);
+
+    const [profilePreview, setProfilePreview] = useState<string>(
+        user?.profilePicUrl as string
+    );
+    const [profilePicFile, setProfilePicFile] = useState<File | string | null>(
+        null
+    );
     const [isEditingProfilePic, setIsEditingProfilePic] = useState(false);
+    const cancelProfilePicChange = () => {
+        setIsEditingProfilePic(false);
+        setProfilePreview(user?.profilePicUrl as string);
+        setProfilePicFile(null);
+        if (uploadRef.current) uploadRef.current.value = "";
+    };
+
+    const handleFileUpload = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const profilePicFile = event.target.files?.[0];
+        if (profilePicFile) {
+            setIsEditingProfilePic(true);
+            setProfilePreview(URL.createObjectURL(profilePicFile));
+            setProfilePicFile(profilePicFile);
+        }
+    };
+
+    const handleProfileSubmit = async (e: React.FormEvent) => {
+        try {
+            e.preventDefault();
+
+            let profilePicUrl: string;
+            if (profilePicFile === DEFAULT_USER_PROFILE_PIC_URL) {
+                profilePicUrl = profilePicFile;
+            } else {
+                const { data, error } = await supabase!.storage
+                    .from(PROFILE_PICS_BUCKET)
+                    .upload(
+                        `users/${user?.id}/${(profilePicFile as File).name}`,
+                        profilePicFile!,
+                        {
+                            cacheControl: "3600",
+                            upsert: true,
+                        }
+                    );
+
+                if (error) {
+                    // TODO later handle error
+                    alert(error.message);
+                    return;
+                }
+
+                const {
+                    data: { publicUrl },
+                } = supabase!.storage
+                    .from(PROFILE_PICS_BUCKET)
+                    .getPublicUrl(data!.path);
+                profilePicUrl = publicUrl;
+            }
+
+            const token = localStorage.getItem("token");
+            const endpoint = getEndPoint(EndPoint.ProfilePic);
+            const options: RequestInit = {
+                method: HttpMethod.PATCH,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ profilePicUrl }),
+            };
+
+            const response = await fetch(endpoint, options);
+            if (!response.ok) {
+                // TODO later handle error
+                return;
+            }
+            const newUser: User = await response.json();
+            console.log(newUser);
+            setIsEditingProfilePic(false);
+            setUser(newUser);
+            setProfilePreview(newUser.profilePicUrl);
+            setProfilePicFile(null);
+            if (uploadRef.current) uploadRef.current.value = "";
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const deleteProfilePic = () => {
+        setIsEditingProfilePic(true);
+        setProfilePreview(DEFAULT_USER_PROFILE_PIC_URL);
+        setProfilePicFile(DEFAULT_USER_PROFILE_PIC_URL);
+    };
 
     const [name, setName] = useState("");
     const [isEditingName, setIsEditingName] = useState(false);
@@ -35,44 +135,49 @@ const ProfileDialog = ({
     };
 
     const handleNameSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const token = localStorage.getItem("token");
-        const endpoint = getEndPoint(EndPoint.Name);
-        const options: RequestInit = {
-            method: HttpMethod.PATCH,
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ fullName: name.trim() }),
-        };
+        try {
+            e.preventDefault();
+            const token = localStorage.getItem("token");
+            const endpoint = getEndPoint(EndPoint.Name);
+            const options: RequestInit = {
+                method: HttpMethod.PATCH,
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ fullName: name.trim() }),
+            };
 
-        (async () => {
-            try {
-                const response = await fetch(endpoint, options);
-                if (!response.ok) {
-                    // TODO handle error
-                    return;
-                }
-                const user: User = await response.json();
-                setUser(user);
-                setIsEditingName(false);
-                setName("");
-            } catch (error) {
-                console.error(error);
+            const response = await fetch(endpoint, options);
+            if (!response.ok) {
+                // TODO handle error
+                return;
             }
-        })();
+            const user: User = await response.json();
+            setUser(user);
+            setIsEditingName(false);
+            setName("");
+        } catch (error) {
+            console.error(error);
+        }
     };
 
+    useEffect(() => {
+        // Clean up the object URL when the component unmounts
+        return () => {
+            URL.revokeObjectURL(profilePreview);
+        };
+    }, [profilePreview]);
+
     return (
-        <Dialog open={true} fullWidth maxWidth={"sm"}>
+        <Dialog open={true} fullWidth maxWidth={"sm"} fullScreen={fullScreen}>
             <DialogTitle
                 sx={{
                     display: "flex",
                     justifyContent: "space-between",
                 }}
             >
-                Profile{" "}
+                Profile
                 <IconButton onClick={handleDialogClose}>
                     <Close />
                 </IconButton>
@@ -85,25 +190,59 @@ const ProfileDialog = ({
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
-                            gap: 3,
                         }}
                     >
-                        <Avatar sx={{ width: 90, height: 90 }} />
-                        {isEditingProfilePic ? (
-                            <Box sx={{ display: "flex", gap: 2 }}>
-                                <Button variant="contained">Save</Button>
-                                <Button>Cancel</Button>
-                            </Box>
-                        ) : (
-                            <Button
-                                onClick={() => setIsEditingProfilePic(true)}
-                            >
-                                Edit
-                            </Button>
-                        )}
+                        <Avatar
+                            sx={{ width: 90, height: 90 }}
+                            src={profilePreview}
+                        />
+                        <Box
+                            component="form"
+                            mt={2}
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                gap: 2,
+                            }}
+                            onSubmit={handleProfileSubmit}
+                        >
+                            {isEditingProfilePic ? (
+                                <>
+                                    <Button variant="contained" type="submit">
+                                        Save
+                                    </Button>
+                                    <Button onClick={cancelProfilePicChange}>
+                                        Cancel
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button component="label">
+                                        Edit
+                                        <input
+                                            ref={uploadRef}
+                                            type="file"
+                                            onChange={handleFileUpload}
+                                            accept="image/*"
+                                            hidden
+                                        />
+                                    </Button>
+                                    <IconButton
+                                        color="error"
+                                        disabled={
+                                            user?.profilePicUrl ===
+                                            DEFAULT_USER_PROFILE_PIC_URL
+                                        }
+                                        onClick={deleteProfilePic}
+                                    >
+                                        <Delete />
+                                    </IconButton>
+                                </>
+                            )}
+                        </Box>
                     </Grid2>
                     <Divider orientation="vertical" flexItem />
-                    <Grid2 size={7}>
+                    <Grid2 size={6}>
                         <Box
                             component={"form"}
                             onSubmit={handleNameSubmit}
@@ -134,7 +273,7 @@ const ProfileDialog = ({
                                         slotProps={{
                                             input: {
                                                 inputProps: {
-                                                    maxlength:
+                                                    maxLength:
                                                         LIMITS.FULL_NAME_LENGTH,
                                                 },
                                             },

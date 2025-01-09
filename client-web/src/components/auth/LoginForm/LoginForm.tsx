@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthResponse } from "../../../../../common/auth";
 import { useAuthForm } from "../../../hooks/authForm";
 import { useUser } from "../../../hooks/user";
@@ -11,9 +11,8 @@ import "./LoginForm.css";
 
 const LoginForm = () => {
     const { authData } = useAuthForm();
-    const { setUser } = useUser();
+    const { setUserSession } = useUser();
     const [serverError, setServerError] = useState("");
-    const navigate = useNavigate();
 
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,10 +34,7 @@ const LoginForm = () => {
                     return;
                 }
                 const data: AuthResponse = await response.json();
-                localStorage.setItem("token", data.token!);
-                setUser(data.user!);
-
-                navigate("/lofts", { replace: true });
+                setUserSession(data.user, data.token);
             } catch (error) {
                 console.error(error);
             }

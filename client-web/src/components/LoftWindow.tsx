@@ -218,7 +218,7 @@ const LoftWindow = () => {
                     slotProps={{
                         input: {
                             inputProps: {
-                                maxlength: LIMITS.MESSAGE_CONTENT_LENGTH,
+                                maxLength: LIMITS.MESSAGE_CONTENT_LENGTH,
                             },
                         },
                     }}

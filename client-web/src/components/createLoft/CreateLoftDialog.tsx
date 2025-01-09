@@ -94,7 +94,7 @@ const CreateLoftDialog = ({
                             slotProps={{
                                 input: {
                                     inputProps: {
-                                        maxlength: LIMITS.LOFT_NAME_LENGTH,
+                                        maxLength: LIMITS.LOFT_NAME_LENGTH,
                                     },
                                 },
                             }}
@@ -111,7 +111,7 @@ const CreateLoftDialog = ({
                             slotProps={{
                                 input: {
                                     inputProps: {
-                                        maxlength:
+                                        maxLength:
                                             LIMITS.LOFT_DESCRIPTION_LENGTH,
                                     },
                                 },

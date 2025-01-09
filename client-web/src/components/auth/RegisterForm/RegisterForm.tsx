@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthResponse } from "../../../../../common/auth";
 import { useAuthForm } from "../../../hooks/authForm";
 import { useUser } from "../../../hooks/user";
@@ -16,13 +16,12 @@ import "./RegisterForm.css";
 
 const RegisterForm = () => {
     const { authData, setAuthData } = useAuthForm();
-    const { setUser } = useUser();
+    const { setUserSession } = useUser();
     const [showPassword, setShowPassword] = useState(false);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const [confirmationPassword, setConfirmationPassword] = useState("");
     const [showConfirmationError, setShowConfirmationError] = useState(false);
     const [serverError, setServerError] = useState("");
-    const navigate = useNavigate();
 
     const isPasswordConfirmed = () =>
         authData.password === confirmationPassword;
@@ -49,10 +48,7 @@ const RegisterForm = () => {
                         return;
                     }
                     const data: AuthResponse = await response.json();
-                    localStorage.setItem("token", data.token!);
-                    setUser(data.user!);
-
-                    navigate("/lofts", { replace: true });
+                    setUserSession(data.user, data.token);
                 } catch (error) {
                     console.error(error);
                 }
@@ -72,7 +68,7 @@ const RegisterForm = () => {
                     slotProps={{
                         input: {
                             inputProps: {
-                                maxlength: LIMITS.FULL_NAME_LENGTH,
+                                maxLength: LIMITS.FULL_NAME_LENGTH,
                             },
                         },
                     }}
@@ -101,7 +97,7 @@ const RegisterForm = () => {
                                     setShowPassword={setShowPassword}
                                 />
                             ),
-                            inputProps: { maxlength: LIMITS.PASSWORD_LENGTH },
+                            inputProps: { maxLength: LIMITS.PASSWORD_LENGTH },
                         },
                     }}
                 />

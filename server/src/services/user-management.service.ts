@@ -65,6 +65,18 @@ export class UserManagementService {
         return users[0];
     }
 
+    async updateProfilePic(profilePicUrl: string, userId: string) {
+        const users: User[] = await this.postgresDb.sql<User[]>`
+            UPDATE users
+            SET profile_pic_url = ${profilePicUrl}
+            WHERE id = ${userId}
+            RETURNING *;
+        `;
+
+        if (!users.length) return null;
+        return users[0];
+    }
+
     private async insertUser(authData: AuthData) {
         const result: User[] = await this.postgresDb.sql<User[]>`
             INSERT INTO users (full_name, profile_pic_url)

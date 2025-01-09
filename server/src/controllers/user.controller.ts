@@ -20,6 +20,7 @@ export class UserController {
     private configureRouter() {
         this.router.use(this.tokenService.validateToken);
         this.router.patch("/name", this.updateName);
+        this.router.patch("/profile-pic", this.updateProfilePic);
     }
 
     private updateName = async (req: Request, res: Response) => {
@@ -33,6 +34,30 @@ export class UserController {
 
             const newUser = await this.userManagementService.updateFullName(
                 fullName,
+                res.locals.id
+            );
+            if (!newUser) {
+                res.sendStatus(StatusCodes.NOT_FOUND);
+                return;
+            }
+
+            res.json(newUser);
+        } catch (error) {
+            handleServerError(res, error, "Error when updating name");
+        }
+    };
+
+    private updateProfilePic = async (req: Request, res: Response) => {
+        try {
+            const profilePicUrl = req.body.profilePicUrl;
+
+            if (typeof profilePicUrl !== "string") {
+                res.sendStatus(StatusCodes.BAD_REQUEST);
+                return;
+            }
+
+            const newUser = await this.userManagementService.updateProfilePic(
+                profilePicUrl,
                 res.locals.id
             );
             if (!newUser) {

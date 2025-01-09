@@ -23,7 +23,7 @@ const CredentialFields = ({ error }: { error: string }) => {
                 slotProps={{
                     input: {
                         inputProps: {
-                            maxlength: LIMITS.EMAIL_LENGTH,
+                            maxLength: LIMITS.EMAIL_LENGTH,
                         },
                     },
                 }}
@@ -45,7 +45,7 @@ const CredentialFields = ({ error }: { error: string }) => {
                             />
                         ),
                         inputProps: {
-                            maxlength: LIMITS.PASSWORD_LENGTH,
+                            maxLength: LIMITS.PASSWORD_LENGTH,
                         },
                     },
                 }}

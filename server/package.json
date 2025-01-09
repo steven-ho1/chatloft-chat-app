@@ -4,7 +4,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "ts-node-dev --respawn --rs src/index.ts",
-        "build": "tsc && xcopy public dist\\server\\public /s /i",
+        "build": "tsc",
         "start": "node dist/server/src/index.js",
         "lint": "eslint src/**/*.ts",
         "lint:fix": "eslint src/**/*.ts --fix"

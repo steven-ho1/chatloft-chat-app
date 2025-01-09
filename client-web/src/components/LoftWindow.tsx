@@ -123,7 +123,10 @@ const LoftWindow = () => {
                         sx={{ border: "1px solid #424242", mr: 1 }}
                     />
                     <Typography sx={{ flex: 1 }}>{activeLoft.name}</Typography>
-                    <IconButton color="inherit">
+                    <IconButton
+                        color="inherit"
+                        onClick={() => alert("Not implemented yet")}
+                    >
                         <InfoIcon />
                     </IconButton>
                 </Toolbar>

@@ -78,7 +78,15 @@ const CreateLoftDialog = ({
                                 <Button color="error">Delete</Button>
                             </Box>
                         ) : (
-                            <Button>Upload</Button>
+                            <Button
+                                onClick={() =>
+                                    alert(
+                                        "Not implemented yet, but the user profile pic change is"
+                                    )
+                                }
+                            >
+                                Upload
+                            </Button>
                         )}
                     </Grid2>
                     <Divider orientation="vertical" flexItem />
@@ -121,7 +129,11 @@ const CreateLoftDialog = ({
                 </Grid2>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleSubmit} variant="contained">
+                <Button
+                    onClick={handleSubmit}
+                    variant="contained"
+                    disabled={!newLoft.name.trim()}
+                >
                     Create
                 </Button>
                 <Button onClick={handleClosing}>Cancel</Button>

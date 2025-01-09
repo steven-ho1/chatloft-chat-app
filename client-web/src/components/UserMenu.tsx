@@ -101,7 +101,7 @@ const UserMenu = () => {
                         </ListItemIcon>
                         <ListItemText primary="Profile"></ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={() => handleDialogOpen("settings")}>
+                    <MenuItem onClick={() => alert("Not implemented yet")}>
                         <ListItemIcon>
                             <Settings fontSize="small" />
                         </ListItemIcon>

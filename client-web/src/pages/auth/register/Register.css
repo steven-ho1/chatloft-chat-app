@@ -1,3 +1,7 @@
+.register {
+    margin: 2rem 0;
+}
+
 .register__success-message-container {
     gap: 1rem;
 }

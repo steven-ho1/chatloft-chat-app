@@ -1,6 +1,6 @@
 .auth {
     background-color: whitesmoke;
-    padding: 1.5rem;
+    padding: 1.5rem 3rem;
 }
 
 .auth__input-container {
@@ -14,5 +14,5 @@
 }
 
 .auth__input {
-    width: 20vw;
+    width: 100%;
 }

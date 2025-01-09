@@ -183,7 +183,7 @@ const LoftWindow = () => {
                                                     <Typography
                                                         variant="body2"
                                                         sx={{
-                                                            "word-wrap":
+                                                            wordWrap:
                                                                 "break-word",
                                                         }}
                                                     >

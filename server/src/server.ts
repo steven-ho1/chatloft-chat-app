@@ -5,7 +5,6 @@ import { Application } from "./app";
 import { PostgresDbService } from "./services/postgres-db.service";
 import { SocketService } from "./services/socket/socket.service";
 import { SupabaseService } from "./services/supabase.service";
-import { LOCAL_PORT } from "./types/defaults";
 
 @Service()
 export class Server {
@@ -19,7 +18,7 @@ export class Server {
         private supabaseService: SupabaseService
     ) {
         configDotenv();
-        this.port = process.env.PORT || LOCAL_PORT;
+        this.port = process.env.PORT || "5000";
         this.server = http.createServer(this.application.app);
     }
 

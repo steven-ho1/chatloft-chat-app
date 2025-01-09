@@ -1,9 +1,9 @@
-import { Loft, LoftCreation } from "@common/loft";
-import { MessageGroup } from "@common/message";
-import { LoftManagementService } from "@src/services/loft-management.service";
-import { MessageManagementService } from "@src/services/message-management.service";
 import * as io from "socket.io";
 import { Service } from "typedi";
+import { Loft, LoftCreation } from "../../../loft";
+import { MessageGroup } from "../../../message";
+import { LoftManagementService } from "../../loft-management.service";
+import { MessageManagementService } from "../../message-management.service";
 
 @Service()
 export class LoftHandler {

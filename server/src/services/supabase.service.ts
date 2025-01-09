@@ -1,7 +1,7 @@
-import { PROFILE_PICS_BUCKET } from "@src/types/defaults";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { configDotenv } from "dotenv";
 import { Service } from "typedi";
+import { PROFILE_PICS_BUCKET } from "../types/defaults";
 
 const FILE_SIZE_LIMIT = 204800; // Bytes, which is 200 KB
 

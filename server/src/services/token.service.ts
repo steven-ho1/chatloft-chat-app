@@ -1,8 +1,8 @@
-import { handleServerError } from "@src/utils/error";
 import { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { JwtPayload, sign, verify } from "jsonwebtoken";
 import { Service } from "typedi";
+import { handleServerError } from "../utils/error";
 
 @Service()
 export class TokenService {

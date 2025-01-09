@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "dev": "ts-node-dev -r tsconfig-paths/register --respawn --rs src/index.ts",
+        "dev": "ts-node-dev --respawn --rs src/index.ts",
         "build": "tsc",
-        "start": "node dist/index.js",
+        "start": "node dist/server/src/index.js",
         "lint": "eslint src/**/*.ts",
         "lint:fix": "eslint src/**/*.ts --fix"
     },
@@ -44,7 +44,6 @@
         "redis": "^4.7.0",
         "reflect-metadata": "^0.2.2",
         "socket.io": "^4.8.1",
-        "tsconfig-paths": "^4.2.0",
         "typedi": "^0.10.0"
     }
 }

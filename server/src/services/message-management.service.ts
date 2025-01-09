@@ -1,9 +1,9 @@
-import { Message, MessageGroup, MessageInput } from "@common/message";
-import { User } from "@common/user";
-import { getMontrealDateTime } from "@src/utils/date";
 import { isToday, isYesterday, parse } from "date-fns";
 import { Row } from "postgres";
 import { Service } from "typedi";
+import { Message, MessageGroup, MessageInput } from "../message";
+import { User } from "../user";
+import { getMontrealDateTime } from "../utils/date";
 import { PostgresDbService } from "./postgres-db.service";
 
 @Service()

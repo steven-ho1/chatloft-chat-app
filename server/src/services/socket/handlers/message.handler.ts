@@ -1,7 +1,7 @@
-import { Message, MessageInput } from "@common/message";
-import { MessageManagementService } from "@src/services/message-management.service";
 import * as io from "socket.io";
 import { Service } from "typedi";
+import { Message, MessageInput } from "../../../message";
+import { MessageManagementService } from "../../message-management.service";
 
 @Service()
 export class MessageHandler {

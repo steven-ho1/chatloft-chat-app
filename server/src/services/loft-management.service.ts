@@ -1,9 +1,9 @@
-import { Loft, LoftCreation } from "@common/loft";
+import { Service } from "typedi";
+import { Loft, LoftCreation } from "../loft";
 import {
     DEFAULT_LOFT_DESCRIPTION,
     DEFAULT_LOFT_PROFILE_PIC_URL,
-} from "@src/types/defaults";
-import { Service } from "typedi";
+} from "../types/defaults";
 import { PostgresDbService } from "./postgres-db.service";
 
 @Service()

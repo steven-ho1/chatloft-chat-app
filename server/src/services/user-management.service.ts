@@ -1,8 +1,8 @@
-import { AuthData, Credentials } from "@common/auth";
-import { User } from "@common/user";
-import { DEFAULT_USER_PROFILE_PIC_URL } from "@src/types/defaults";
 import { compare, hash } from "bcryptjs";
 import { Service } from "typedi";
+import { AuthData, Credentials } from "../auth";
+import { DEFAULT_USER_PROFILE_PIC_URL } from "../types/defaults";
+import { User } from "../user";
 import { PostgresDbService } from "./postgres-db.service";
 
 const SALT_LENGTH = 10;

@@ -1,10 +1,10 @@
-import { AuthData, AuthResponse } from "@common/auth";
-import { User } from "@common/user";
-import { TokenService } from "@src/services/token.service";
-import { UserManagementService } from "@src/services/user-management.service";
 import { Request, Response, Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { Service } from "typedi";
+import { AuthData, AuthResponse } from "../auth";
+import { TokenService } from "../services/token.service";
+import { UserManagementService } from "../services/user-management.service";
+import { User } from "../user";
 import { handleServerError } from "../utils/error";
 
 @Service()

@@ -1,9 +1,9 @@
-import { TokenService } from "@src/services/token.service";
-import { UserManagementService } from "@src/services/user-management.service";
-import { handleServerError } from "@src/utils/error";
 import { Request, Response, Router } from "express";
 import { StatusCodes } from "http-status-codes";
 import { Service } from "typedi";
+import { TokenService } from "../services/token.service";
+import { UserManagementService } from "../services/user-management.service";
+import { handleServerError } from "../utils/error";
 
 @Service()
 export class UserController {

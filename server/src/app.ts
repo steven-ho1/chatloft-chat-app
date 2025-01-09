@@ -27,6 +27,9 @@ export class Application {
     private bindRoutes(): void {
         this.app.use(express.static(path.join(__dirname, "..", "public")));
 
+        this.app.get("/", (_req, res) => {
+            res.send("Welcome!");
+        });
         this.app.use("/api/auth", this.authController.router);
         this.app.use("/api/users", this.userController.router);
         this.app.use(this.handleNotFound);

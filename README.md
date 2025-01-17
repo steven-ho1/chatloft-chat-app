@@ -3,19 +3,30 @@
 ## Table of Contents
 
 1. [Description](#description)
-2. [Built With](#built-with)
-3. [Getting Started](#getting-started)
+2. [Live Demo](#live-demo)
+3. [Built With](#built-with)
+4. [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
-4. [Usage](#usage)
+5. [Usage](#usage)
 
 ## Description
 
 ChatLoft is a web application that allows users to join chat rooms called "Lofts" where they can engage in real-time conversations with others.
 
-You can view the deployed version of the project here (hosted on Netlify for the frontend and Render for the backend): [ChatLoft](https://chatloft.netlify.app)
-
 **Note:** The app is still under development, so some features may not be fully functional and the UI still needs work.
+
+## Live Demo
+
+You can view the deployed version of the project here: [ChatLoft](https://chatloft.netlify.app)
+
+-   Frontend hosted on
+
+    [![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://www.netlify.com/)
+
+-   Backend hosted on
+
+    [![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com/)
 
 ## Built With
 
@@ -29,7 +40,9 @@ Here are the core technologies used for this project:
 -   [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 -   [![Supabase](https://img.shields.io/badge/Supabase-181818?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.io/)
 
-In addition to the core technologies, Vite is used as the development server and build tool for the client-side.
+For client-side development, I use [Vite](https://vite.dev/) as the development server and build tool.
+
+Supabase is leveraged for its cloud-hosted PostgreSQL database and cloud storage service.
 
 ## Getting Started
 

@@ -18,7 +18,7 @@ export class Server {
         private supabaseService: SupabaseService
     ) {
         configDotenv();
-        this.port = process.env.PORT || "5000";
+        this.port = process.env.PORT || "3000";
         this.server = http.createServer(this.application.app);
     }
 

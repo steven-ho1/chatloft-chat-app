@@ -20,7 +20,7 @@ export class PostgresDbService {
     }
     private async setRlsPolicies() {
         console.log("Setting RLS policies...");
-        await this.sql`ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY`;
+        //await this.sql`ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY`;
 
         const policyResults = await this.sql`
             SELECT policyname, tablename
